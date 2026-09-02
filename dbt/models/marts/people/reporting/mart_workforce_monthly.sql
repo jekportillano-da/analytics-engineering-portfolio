@@ -10,30 +10,28 @@ with daily_headcount as (
 
 monthly_daily as (
     select
-        cast(date_trunc('month', snapshot_date) as date) as period_start,
+        {{ portable_month_start('snapshot_date') }} as period_start,
         max(snapshot_date) as period_end,
         count(*) as calendar_days,
         avg(daily_headcount) as average_daily_headcount,
-        arg_max(daily_headcount, snapshot_date) as ending_headcount
+        {{ portable_arg_max('daily_headcount', 'snapshot_date') }} as ending_headcount
     from daily_headcount
     group by 1
 ),
 
 monthly_events as (
     select
-        cast(date_trunc('month', event_date) as date) as period_start,
-        count(*) filter (where event_type in ('first_hire', 'rehire')) as hires,
-        count(*) filter (where event_type = 'first_hire') as first_hires,
-        count(*) filter (where event_type = 'rehire') as rehires,
-        count(*) filter (where event_type = 'separation') as separations,
-        count(*) filter (
-            where event_type = 'separation'
-                and separation_category = 'voluntary'
-        ) as voluntary_separations,
-        count(*) filter (
-            where event_type = 'separation'
-                and separation_category = 'involuntary'
-        ) as involuntary_separations
+        {{ portable_month_start('event_date') }} as period_start,
+        {{ portable_count_if("event_type in ('first_hire', 'rehire')") }} as hires,
+        {{ portable_count_if("event_type = 'first_hire'") }} as first_hires,
+        {{ portable_count_if("event_type = 'rehire'") }} as rehires,
+        {{ portable_count_if("event_type = 'separation'") }} as separations,
+        {{ portable_count_if(
+            "event_type = 'separation' and separation_category = 'voluntary'"
+        ) }} as voluntary_separations,
+        {{ portable_count_if(
+            "event_type = 'separation' and separation_category = 'involuntary'"
+        ) }} as involuntary_separations
     from {{ ref('fct_workforce_events') }}
     where event_date between
         date '{{ var("analysis_start_date") }}'

@@ -7,7 +7,7 @@ with expected as (
             {% if not loop.last %}union all{% endif %}
         {% endfor %}
     {% else %}
-        select cast(null as varchar) as issue_type where false
+        select cast(null as {{ portable_string_type() }}) as issue_type where false
     {% endif %}
 ),
 

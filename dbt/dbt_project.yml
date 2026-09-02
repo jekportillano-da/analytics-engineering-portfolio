@@ -1,6 +1,7 @@
 name: analytics_engineering_portfolio
 version: 1.0.0
 config-version: 2
+require-dbt-version: [">=1.12.0", "<1.13.0"]
 
 profile: analytics_engineering_portfolio
 

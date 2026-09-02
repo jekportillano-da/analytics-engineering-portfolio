@@ -35,7 +35,8 @@ matched_job_history as (
 )
 
 select
-    snapshot_date::varchar || '|' || employment_id as workforce_daily_id,
+    cast(snapshot_date as {{ portable_string_type() }})
+        || '|' || employment_id as workforce_daily_id,
     snapshot_date,
     employment_id,
     worker_id,

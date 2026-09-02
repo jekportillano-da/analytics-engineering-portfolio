@@ -6,3 +6,11 @@ analytics_engineering_portfolio:
       path: "{{ env_var('PEOPLE_ANALYTICS_DB_PATH', 'warehouse/people_analytics.duckdb') }}"
       schema: analytics
       threads: 4
+    bigquery:
+      type: bigquery
+      method: oauth
+      project: "{{ env_var('BIGQUERY_PROJECT') }}"
+      dataset: "{{ env_var('DBT_BIGQUERY_DATASET') }}"
+      location: "{{ env_var('BIGQUERY_LOCATION') }}"
+      threads: 4
+      priority: interactive

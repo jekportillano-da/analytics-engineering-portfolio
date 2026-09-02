@@ -3,7 +3,8 @@ version: 2
 sources:
   - name: raw
     description: Generated source-system extracts loaded without business transformation.
-    schema: raw
+    database: "{{ env_var('BIGQUERY_PROJECT') if target.type == 'bigquery' else target.database }}"
+    schema: "{{ env_var('PEOPLE_BIGQUERY_RAW_DATASET') if target.type == 'bigquery' else 'raw' }}"
     tables:
       - name: workers
       - name: employment_spells

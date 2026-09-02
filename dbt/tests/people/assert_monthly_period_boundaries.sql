@@ -5,8 +5,8 @@ where
         last_day(period_start),
         date '{{ var("analysis_end_date") }}'
     )
-    or calendar_days != date_diff(
+    or calendar_days != {{ portable_date_diff(
         'day',
-        greatest(period_start, date '{{ var("analysis_start_date") }}'),
-        period_end
-    ) + 1
+        "greatest(period_start, date '" ~ var('analysis_start_date') ~ "')",
+        'period_end'
+    ) }} + 1

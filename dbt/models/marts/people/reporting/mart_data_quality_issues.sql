@@ -5,7 +5,8 @@ with duplicate_workers as (
         'worker' as record_type,
         worker_id as record_id,
         'Latest source_updated_at retained from '
-            || source_version_count::varchar || ' source rows.' as issue_detail
+            || cast(source_version_count as {{ portable_string_type() }})
+            || ' source rows.' as issue_detail
     from {{ ref('stg_workers') }}
     where source_version_count > 1
 ),
@@ -17,7 +18,8 @@ duplicate_employment as (
         'employment_spell' as record_type,
         employment_id as record_id,
         'Latest source_updated_at retained from '
-            || source_version_count::varchar || ' source rows.' as issue_detail
+            || cast(source_version_count as {{ portable_string_type() }})
+            || ' source rows.' as issue_detail
     from {{ ref('stg_employment_spells') }}
     where source_version_count > 1
 ),
@@ -29,7 +31,8 @@ duplicate_job_history as (
         'job_history' as record_type,
         job_history_id as record_id,
         'Latest source_updated_at retained from '
-            || source_version_count::varchar || ' source rows.' as issue_detail
+            || cast(source_version_count as {{ portable_string_type() }})
+            || ' source rows.' as issue_detail
     from {{ ref('stg_job_history') }}
     where source_version_count > 1
 ),

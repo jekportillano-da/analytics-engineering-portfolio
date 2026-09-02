@@ -3,7 +3,7 @@ with source as (
         trim(job_id) as job_id,
         trim(job_name) as job_name,
         trim(job_family) as job_family,
-        try_cast(job_level as integer) as job_level
+        {{ portable_try_cast('job_level', 'integer') }} as job_level
     from {{ source('raw', 'jobs') }}
 ),
 

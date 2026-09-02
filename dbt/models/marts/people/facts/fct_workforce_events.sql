@@ -19,8 +19,8 @@ hire_events as (
             when employment_spell_number = 1 then 'first_hire'
             else 'rehire'
         end as event_type,
-        null::varchar as separation_category,
-        null::varchar as separation_reason
+        cast(null as {{ portable_string_type() }}) as separation_category,
+        cast(null as {{ portable_string_type() }}) as separation_reason
     from valid_employment
 ),
 
