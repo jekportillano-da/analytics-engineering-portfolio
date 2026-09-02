@@ -1,0 +1,87 @@
+# Python environments and packaging
+.venv/
+venv/
+env/
+ENV/
+build/
+dist/
+*.egg-info/
+pip-wheel-metadata/
+
+# Python caches and test artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.hypothesis/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+.ipynb_checkpoints/
+
+# Local and temporary state
+.local/
+.cache/
+tmp/
+temp/
+*.tmp
+*.temp
+*.log
+*.pid
+*.lock
+
+# Credentials and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+service-account*.json
+application_default_credentials.json
+profiles.yml
+!profiles.yml.example
+
+# dbt build artifacts and local state
+target/
+dbt_packages/
+logs/
+.user.yml
+
+# Orchestration local state
+.dagster/
+storage/
+
+# Generated data and outputs
+generated/
+outputs/
+artifacts/
+warehouse/
+data/raw/
+data/processed/
+*.duckdb
+*.duckdb.wal
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Operating-system files
+.DS_Store
+._*
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
