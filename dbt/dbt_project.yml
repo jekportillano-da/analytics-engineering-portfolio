@@ -1,0 +1,35 @@
+name: analytics_engineering_portfolio
+version: 1.0.0
+config-version: 2
+
+profile: analytics_engineering_portfolio
+
+model-paths: ["models"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+
+target-path: target
+clean-targets:
+  - target
+  - dbt_packages
+  - logs
+
+vars:
+  analysis_start_date: "2023-01-01"
+  analysis_end_date: "2025-12-31"
+  expected_quality_issue_types:
+    - invalid_employment_date_range
+    - missing_org_unit_reference
+    - overlapping_job_history
+
+models:
+  analytics_engineering_portfolio:
+    staging:
+      +materialized: view
+      +schema: staging
+    intermediate:
+      +materialized: view
+      +schema: intermediate
+    marts:
+      +materialized: table
+      +schema: marts

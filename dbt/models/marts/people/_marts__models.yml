@@ -1,0 +1,104 @@
+version: 2
+
+models:
+  - name: dim_worker
+    description: One row per fictional person with employment-spell summary fields.
+    columns:
+      - name: worker_id
+        data_tests: [not_null, unique]
+
+  - name: dim_job
+    columns:
+      - name: job_id
+        data_tests: [not_null, unique]
+
+  - name: dim_org_unit
+    columns:
+      - name: org_unit_id
+        data_tests: [not_null, unique]
+
+  - name: dim_location
+    columns:
+      - name: location_id
+        data_tests: [not_null, unique]
+
+  - name: fct_workforce_daily
+    description: One row per active employment spell and calendar date.
+    columns:
+      - name: workforce_daily_id
+        data_tests: [not_null, unique]
+      - name: snapshot_date
+        data_tests: [not_null]
+      - name: employment_id
+        data_tests: [not_null]
+      - name: worker_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_worker')
+                field: worker_id
+      - name: job_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_job')
+                field: job_id
+      - name: org_unit_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_org_unit')
+                field: org_unit_id
+      - name: location_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_location')
+                field: location_id
+
+  - name: fct_workforce_events
+    description: Hire, rehire, and separation events derived from valid employment spells.
+    columns:
+      - name: workforce_event_id
+        data_tests: [not_null, unique]
+      - name: event_type
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [first_hire, rehire, separation]
+
+  - name: mart_workforce_monthly
+    description: Canonical monthly headcount, movement, and attrition metrics.
+    columns:
+      - name: period_start
+        data_tests: [not_null, unique]
+      - name: period_end
+        data_tests: [not_null]
+      - name: ending_headcount
+        data_tests: [not_null]
+
+  - name: mart_headcount_reconciliation
+    description: Transparent monthly opening-plus-movements headcount reconciliation.
+    columns:
+      - name: period_start
+        data_tests: [not_null, unique]
+      - name: is_reconciled
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [true]
+                quote: false
+
+  - name: mart_data_quality_issues
+    description: Recoverable warnings and excluded errors preserved for review.
+    columns:
+      - name: severity
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [warning, error]
+      - name: issue_type
+        data_tests: [not_null]
+      - name: record_id
+        data_tests: [not_null]

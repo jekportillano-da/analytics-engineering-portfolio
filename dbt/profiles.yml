@@ -1,0 +1,8 @@
+analytics_engineering_portfolio:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      path: "{{ env_var('PEOPLE_ANALYTICS_DB_PATH', 'warehouse/people_analytics.duckdb') }}"
+      schema: analytics
+      threads: 4

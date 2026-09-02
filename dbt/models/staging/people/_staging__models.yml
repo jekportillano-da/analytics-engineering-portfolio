@@ -1,0 +1,63 @@
+version: 2
+
+models:
+  - name: stg_file_manifest
+    description: Load provenance and content hash for each source extract.
+    columns:
+      - name: file_name
+        data_tests: [not_null, unique]
+      - name: sha256
+        data_tests: [not_null]
+      - name: row_count
+        data_tests: [not_null]
+      - name: loaded_at
+        data_tests: [not_null]
+
+  - name: stg_workers
+    description: Latest source version of each fictional worker.
+    columns:
+      - name: worker_id
+        data_tests: [not_null, unique]
+
+  - name: stg_employment_spells
+    description: Latest source version of each continuous employment spell.
+    columns:
+      - name: employment_id
+        data_tests: [not_null, unique]
+      - name: worker_id
+        data_tests: [not_null]
+      - name: termination_category
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [voluntary, involuntary]
+              config:
+                where: "termination_category is not null"
+
+  - name: stg_job_history
+    description: Latest source version of each effective-dated job assignment.
+    columns:
+      - name: job_history_id
+        data_tests: [not_null, unique]
+      - name: employment_id
+        data_tests: [not_null]
+      - name: employment_type
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [full_time, part_time, contractor]
+
+  - name: stg_jobs
+    columns:
+      - name: job_id
+        data_tests: [not_null, unique]
+
+  - name: stg_org_units
+    columns:
+      - name: org_unit_id
+        data_tests: [not_null, unique]
+
+  - name: stg_locations
+    columns:
+      - name: location_id
+        data_tests: [not_null, unique]

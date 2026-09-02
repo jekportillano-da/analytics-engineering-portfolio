@@ -48,6 +48,7 @@ credentials*.json
 service-account*.json
 application_default_credentials.json
 profiles.yml
+!dbt/profiles.yml
 !profiles.yml.example
 
 # dbt build artifacts and local state
