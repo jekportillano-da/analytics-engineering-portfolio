@@ -1,4 +1,4 @@
-with daily_headcount as (
+with daily_headcount_by_date as (
     select
         dates.calendar_date as snapshot_date,
         count(distinct workforce.employment_id) as daily_headcount
@@ -15,7 +15,7 @@ monthly_daily as (
         count(*) as calendar_days,
         avg(daily_headcount) as average_daily_headcount,
         {{ portable_arg_max('daily_headcount', 'snapshot_date') }} as ending_headcount
-    from daily_headcount
+    from daily_headcount_by_date
     group by 1
 ),
 

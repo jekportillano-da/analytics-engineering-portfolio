@@ -1,22 +1,16 @@
 from __future__ import annotations
 
-import hashlib
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 
 import duckdb
 
-RAW_TABLES = {
-    "workers.csv": "workers",
-    "employment_spells.csv": "employment_spells",
-    "job_history.csv": "job_history",
-    "jobs.csv": "jobs",
-    "org_units.csv": "org_units",
-    "locations.csv": "locations",
-}
-
-VERSIONED_RAW_TABLES = ("workers", "employment_spells", "job_history")
+from analytics_platform.domains.people.ingestion.raw import (
+    RAW_TABLES,
+    VERSIONED_RAW_TABLES,
+    sha256_file,
+)
 
 
 @dataclass(frozen=True)
@@ -30,14 +24,6 @@ class RawVerificationSummary:
     database_path: Path
     row_counts: dict[str, int]
     manifest_count: int
-
-
-def _sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def _sql_string(value: str) -> str:
@@ -83,7 +69,7 @@ def load_raw_dataset(raw_dir: Path, database_path: Path, reset: bool = False) ->
             )
             row_count = connection.execute(f"select count(*) from raw.{table_name}").fetchone()[0]
             row_counts[table_name] = row_count
-            manifest_rows.append((filename, _sha256(file_path), row_count, loaded_at))
+            manifest_rows.append((filename, sha256_file(file_path), row_count, loaded_at))
 
         connection.execute(
             """
@@ -129,7 +115,7 @@ def verify_raw_dataset(raw_dir: Path, database_path: Path) -> RawVerificationSum
                 [filename],
             ).fetchone()[0]
 
-            if manifest_sha256 != _sha256(source_path):
+            if manifest_sha256 != sha256_file(source_path):
                 raise ValueError(f"SHA-256 mismatch for {filename}")
             if manifest_row_count != row_count:
                 raise ValueError(f"Row-count mismatch for {filename}")
