@@ -20,6 +20,7 @@ dependencies = [
 [project.scripts]
 people-local-demo = "analytics_platform.domains.people.cli:main"
 people-bigquery-demo = "analytics_platform.domains.people.bigquery_cli:main"
+wage-openstat-ingest = "analytics_platform.domains.wage.cli:main"
 
 [dependency-groups]
 test = [

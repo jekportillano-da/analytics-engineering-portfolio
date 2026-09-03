@@ -1,0 +1,1 @@
+"""Wage Analytics domain implementation."""

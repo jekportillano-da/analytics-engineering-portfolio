@@ -1,0 +1,33 @@
+{
+  "dataset": {
+    "label": "Average Monthly Wage Rates of General Office Clerks by Sex and Major Industry Group, Philippines: August 2024",
+    "source": "Philippine Statistics Authority",
+    "dimension": {
+    "Industry": {
+      "label": "Industry",
+      "category": {
+        "index": ["00"],
+        "label": {"00": "ALL INDUSTRIES"}
+      }
+    },
+    "Year": {
+      "label": "Year",
+      "category": {
+        "index": ["0"],
+        "label": {"0": "2024"}
+      }
+    },
+      "Sex": {
+      "label": "Sex",
+      "category": {
+        "index": ["0", "1", "2"],
+        "label": {"0": "BOTH SEXES", "1": "MALE", "2": "FEMALE"}
+      }
+      },
+      "id": ["Industry", "Year", "Sex"],
+      "size": [1, 1, 3],
+      "role": {}
+    },
+    "value": [19721, 20132, 19444]
+  }
+}

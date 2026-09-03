@@ -1,0 +1,23 @@
+{
+  "title": "Average Monthly Basic Pay, Allowance and Wage Rates by Major Industry Group, Philippines: August 2024",
+  "variables": [
+    {
+      "code": "Industry",
+      "text": "Industry",
+      "values": ["00", "I"],
+      "valueTexts": ["ALL INDUSTRIES", "ACCOMMODATION AND FOOD SERVICE ACTIVITIES"]
+    },
+    {
+      "code": "Year",
+      "text": "Year",
+      "values": ["0"],
+      "valueTexts": ["2024"]
+    },
+    {
+      "code": "Item",
+      "text": "Item",
+      "values": ["WAGE", "ALLOWANCE"],
+      "valueTexts": ["Average Monthly Wage Rate (PhP)", "Average Monthly Allowance (PhP)"]
+    }
+  ]
+}

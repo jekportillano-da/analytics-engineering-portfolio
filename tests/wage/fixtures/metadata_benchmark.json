@@ -1,0 +1,23 @@
+{
+  "title": "Average Monthly Wage Rates of General Office Clerks by Sex and Major Industry Group, Philippines: August 2024",
+  "variables": [
+    {
+      "code": "Industry",
+      "text": "Industry",
+      "values": ["00"],
+      "valueTexts": ["ALL INDUSTRIES"]
+    },
+    {
+      "code": "Year",
+      "text": "Year",
+      "values": ["0"],
+      "valueTexts": ["2024"]
+    },
+    {
+      "code": "Sex",
+      "text": "Sex",
+      "values": ["0", "1", "2"],
+      "valueTexts": ["BOTH SEXES", "MALE", "FEMALE"]
+    }
+  ]
+}
