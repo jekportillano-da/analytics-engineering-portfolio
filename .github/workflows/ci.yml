@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  local-platform-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install validated Python stack
+        run: python -m pip install -e . "pytest>=8,<10"
+
+      - name: Run Python tests
+        run: python -m pytest -q -p no:cacheprovider
+
+      - name: Regenerate and validate presentation artifacts
+        run: |
+          python -m analytics_platform.presentation.cli generate
+          git diff --exit-code -- presentation/data
+          python -m analytics_platform.presentation.cli validate
+
+      - name: Generate and load local People sources
+        run: |
+          python -m analytics_platform.domains.people.cli \
+            --raw-dir .local/ci/people/raw \
+            --database .local/ci/people_analytics.duckdb
+
+      - name: Build and test People dbt project locally
+        env:
+          PEOPLE_ANALYTICS_DB_PATH: .local/ci/people_analytics.duckdb
+        run: >-
+          dbt build
+          --project-dir dbt
+          --profiles-dir dbt
+          --target local
+          --no-partial-parse
+
+      - name: Validate Dagster definitions
+        run: dagster definitions validate -m orchestration.definitions

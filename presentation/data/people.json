@@ -1,0 +1,932 @@
+{
+  "artifact_id": "presentation.people.v1",
+  "artifact_type": "people",
+  "contract_id": "analytics-portfolio-presentation-v1",
+  "contract_version": 1,
+  "data": {
+    "definitions": [
+      {
+        "aggregation_behavior": "ratio_not_additive_or_averageable",
+        "definition": "Monthly separations divided by average daily headcount for the same month.",
+        "denominator": "attrition_denominator",
+        "domain": "people",
+        "limitations": "Recompute from additive components for a different period; do not sum or average monthly rates.",
+        "metric_id": "people.attrition_rate",
+        "numerator": "attrition_numerator",
+        "source_model": "metrics_people_monthly",
+        "time_field": "period_start",
+        "time_grain": "month",
+        "valid_dimension_sets": [
+          [
+            "period_start",
+            "period_end"
+          ]
+        ],
+        "value_field": "attrition_rate"
+      },
+      {
+        "aggregation_behavior": "point_in_time_not_additive",
+        "definition": "Active employment-spell count on the final represented calendar date of the month.",
+        "denominator": null,
+        "domain": "people",
+        "limitations": "No organization, job, or location breakout exists in the validated monthly source model.",
+        "metric_id": "people.ending_headcount",
+        "numerator": null,
+        "source_model": "metrics_people_monthly",
+        "time_field": "period_start",
+        "time_grain": "month",
+        "valid_dimension_sets": [
+          [
+            "period_start",
+            "period_end"
+          ]
+        ],
+        "value_field": "ending_headcount"
+      },
+      {
+        "aggregation_behavior": "additive_over_non_overlapping_periods",
+        "definition": "Count of first-hire and rehire events occurring within the month.",
+        "denominator": null,
+        "domain": "people",
+        "limitations": "Based on valid synthetic employment spells within the configured analysis window.",
+        "metric_id": "people.hires",
+        "numerator": null,
+        "source_model": "metrics_people_monthly",
+        "time_field": "period_start",
+        "time_grain": "month",
+        "valid_dimension_sets": [
+          [
+            "period_start",
+            "period_end"
+          ]
+        ],
+        "value_field": "hires"
+      },
+      {
+        "aggregation_behavior": "additive_over_non_overlapping_periods",
+        "definition": "Count of separation events occurring within the month.",
+        "denominator": null,
+        "domain": "people",
+        "limitations": "Based on valid synthetic employment spells within the configured analysis window.",
+        "metric_id": "people.separations",
+        "numerator": null,
+        "source_model": "metrics_people_monthly",
+        "time_field": "period_start",
+        "time_grain": "month",
+        "valid_dimension_sets": [
+          [
+            "period_start",
+            "period_end"
+          ]
+        ],
+        "value_field": "separations"
+      }
+    ],
+    "limitations": [
+      "Recompute from additive components for a different period; do not sum or average monthly rates.",
+      "No organization, job, or location breakout exists in the validated monthly source model.",
+      "Based on valid synthetic employment spells within the configured analysis window.",
+      "Based on valid synthetic employment spells within the configured analysis window."
+    ],
+    "monthly": [
+      {
+        "attrition_denominator": 244.74,
+        "attrition_numerator": 1,
+        "attrition_rate": 0.004086,
+        "calendar_days": 31,
+        "ending_headcount": 249,
+        "hires": 12,
+        "metric_contract_version": "v1",
+        "period_end": "2023-01-31",
+        "period_start": "2023-01-01",
+        "separations": 1
+      },
+      {
+        "attrition_denominator": 251.04,
+        "attrition_numerator": 3,
+        "attrition_rate": 0.01195,
+        "calendar_days": 28,
+        "ending_headcount": 252,
+        "hires": 6,
+        "metric_contract_version": "v1",
+        "period_end": "2023-02-28",
+        "period_start": "2023-02-01",
+        "separations": 3
+      },
+      {
+        "attrition_denominator": 254.61,
+        "attrition_numerator": 1,
+        "attrition_rate": 0.003928,
+        "calendar_days": 31,
+        "ending_headcount": 256,
+        "hires": 5,
+        "metric_contract_version": "v1",
+        "period_end": "2023-03-31",
+        "period_start": "2023-03-01",
+        "separations": 1
+      },
+      {
+        "attrition_denominator": 259.33,
+        "attrition_numerator": 1,
+        "attrition_rate": 0.003856,
+        "calendar_days": 30,
+        "ending_headcount": 263,
+        "hires": 8,
+        "metric_contract_version": "v1",
+        "period_end": "2023-04-30",
+        "period_start": "2023-04-01",
+        "separations": 1
+      },
+      {
+        "attrition_denominator": 265.26,
+        "attrition_numerator": 3,
+        "attrition_rate": 0.01131,
+        "calendar_days": 31,
+        "ending_headcount": 268,
+        "hires": 8,
+        "metric_contract_version": "v1",
+        "period_end": "2023-05-31",
+        "period_start": "2023-05-01",
+        "separations": 3
+      },
+      {
+        "attrition_denominator": 273.37,
+        "attrition_numerator": 2,
+        "attrition_rate": 0.007316,
+        "calendar_days": 30,
+        "ending_headcount": 279,
+        "hires": 13,
+        "metric_contract_version": "v1",
+        "period_end": "2023-06-30",
+        "period_start": "2023-06-01",
+        "separations": 2
+      },
+      {
+        "attrition_denominator": 282.71,
+        "attrition_numerator": 2,
+        "attrition_rate": 0.007074,
+        "calendar_days": 31,
+        "ending_headcount": 285,
+        "hires": 8,
+        "metric_contract_version": "v1",
+        "period_end": "2023-07-31",
+        "period_start": "2023-07-01",
+        "separations": 2
+      },
+      {
+        "attrition_denominator": 289.19,
+        "attrition_numerator": 3,
+        "attrition_rate": 0.010374,
+        "calendar_days": 31,
+        "ending_headcount": 293,
+        "hires": 11,
+        "metric_contract_version": "v1",
+        "period_end": "2023-08-31",
+        "period_start": "2023-08-01",
+        "separations": 3
+      },
+      {
+        "attrition_denominator": 297.0,
+        "attrition_numerator": 2,
+        "attrition_rate": 0.006734,
+        "calendar_days": 30,
+        "ending_headcount": 300,
+        "hires": 9,
+        "metric_contract_version": "v1",
+        "period_end": "2023-09-30",
+        "period_start": "2023-09-01",
+        "separations": 2
+      },
+      {
+        "attrition_denominator": 304.9,
+        "attrition_numerator": 0,
+        "attrition_rate": 0.0,
+        "calendar_days": 31,
+        "ending_headcount": 312,
+        "hires": 12,
+        "metric_contract_version": "v1",
+        "period_end": "2023-10-31",
+        "period_start": "2023-10-01",
+        "separations": 0
+      },
+      {
+        "attrition_denominator": 316.8,
+        "attrition_numerator": 3,
+        "attrition_rate": 0.00947,
+        "calendar_days": 30,
+        "ending_headcount": 322,
+        "hires": 13,
+        "metric_contract_version": "v1",
+        "period_end": "2023-11-30",
+        "period_start": "2023-11-01",
+        "separations": 3
+      },
+      {
+        "attrition_denominator": 326.23,
+        "attrition_numerator": 2,
+        "attrition_rate": 0.006131,
+        "calendar_days": 31,
+        "ending_headcount": 329,
+        "hires": 9,
+        "metric_contract_version": "v1",
+        "period_end": "2023-12-31",
+        "period_start": "2023-12-01",
+        "separations": 2
+      },
+      {
+        "attrition_denominator": 330.42,
+        "attrition_numerator": 4,
+        "attrition_rate": 0.012106,
+        "calendar_days": 31,
+        "ending_headcount": 333,
+        "hires": 8,
+        "metric_contract_version": "v1",
+        "period_end": "2024-01-31",
+        "period_start": "2024-01-01",
+        "separations": 4
+      },
+      {
+        "attrition_denominator": 336.48,
+        "attrition_numerator": 2,
+        "attrition_rate": 0.005944,
+        "calendar_days": 29,
+        "ending_headcount": 342,
+        "hires": 11,
+        "metric_contract_version": "v1",
+        "period_end": "2024-02-29",
+        "period_start": "2024-02-01",
+        "separations": 2
+      },
+      {
+        "attrition_denominator": 344.0,
+        "attrition_numerator": 7,
+        "attrition_rate": 0.020349,
+        "calendar_days": 31,
+        "ending_headcount": 345,
+        "hires": 10,
+        "metric_contract_version": "v1",
+        "period_end": "2024-03-31",
+        "period_start": "2024-03-01",
+        "separations": 7
+      },
+      {
+        "attrition_denominator": 350.53,
+        "attrition_numerator": 3,
+        "attrition_rate": 0.008558,
+        "calendar_days": 30,
+        "ending_headcount": 354,
+        "hires": 12,
+        "metric_contract_version": "v1",
+        "period_end": "2024-04-30",
+        "period_start": "2024-04-01",
+        "separations": 3
+      },
+      {
+        "attrition_denominator": 352.9,
+        "attrition_numerator": 6,
+        "attrition_rate": 0.017002,
+        "calendar_days": 31,
+        "ending_headcount": 356,
+        "hires": 8,
+        "metric_contract_version": "v1",
+        "period_end": "2024-05-31",
+        "period_start": "2024-05-01",
+        "separations": 6
+      },
+      {
+        "attrition_denominator": 362.7,
+        "attrition_numerator": 3,
+        "attrition_rate": 0.008271,
+        "calendar_days": 30,
+        "ending_headcount": 370,
+        "hires": 17,
+        "metric_contract_version": "v1",
+        "period_end": "2024-06-30",
+        "period_start": "2024-06-01",
+        "separations": 3
+      },
+      {
+        "attrition_denominator": 377.32,
+        "attrition_numerator": 0,
+        "attrition_rate": 0.0,
+        "calendar_days": 31,
+        "ending_headcount": 384,
+        "hires": 14,
+        "metric_contract_version": "v1",
+        "period_end": "2024-07-31",
+        "period_start": "2024-07-01",
+        "separations": 0
+      },
+      {
+        "attrition_denominator": 387.87,
+        "attrition_numerator": 3,
+        "attrition_rate": 0.007735,
+        "calendar_days": 31,
+        "ending_headcount": 390,
+        "hires": 9,
+        "metric_contract_version": "v1",
+        "period_end": "2024-08-31",
+        "period_start": "2024-08-01",
+        "separations": 3
+      },
+      {
+        "attrition_denominator": 394.1,
+        "attrition_numerator": 0,
+        "attrition_rate": 0.0,
+        "calendar_days": 30,
+        "ending_headcount": 400,
+        "hires": 10,
+        "metric_contract_version": "v1",
+        "period_end": "2024-09-30",
+        "period_start": "2024-09-01",
+        "separations": 0
+      },
+      {
+        "attrition_denominator": 405.48,
+        "attrition_numerator": 2,
+        "attrition_rate": 0.004932,
+        "calendar_days": 31,
+        "ending_headcount": 412,
+        "hires": 14,
+        "metric_contract_version": "v1",
+        "period_end": "2024-10-31",
+        "period_start": "2024-10-01",
+        "separations": 2
+      },
+      {
+        "attrition_denominator": 414.57,
+        "attrition_numerator": 8,
+        "attrition_rate": 0.019297,
+        "calendar_days": 30,
+        "ending_headcount": 416,
+        "hires": 12,
+        "metric_contract_version": "v1",
+        "period_end": "2024-11-30",
+        "period_start": "2024-11-01",
+        "separations": 8
+      },
+      {
+        "attrition_denominator": 419.9,
+        "attrition_numerator": 3,
+        "attrition_rate": 0.007145,
+        "calendar_days": 31,
+        "ending_headcount": 423,
+        "hires": 10,
+        "metric_contract_version": "v1",
+        "period_end": "2024-12-31",
+        "period_start": "2024-12-01",
+        "separations": 3
+      },
+      {
+        "attrition_denominator": 426.65,
+        "attrition_numerator": 3,
+        "attrition_rate": 0.007032,
+        "calendar_days": 31,
+        "ending_headcount": 432,
+        "hires": 12,
+        "metric_contract_version": "v1",
+        "period_end": "2025-01-31",
+        "period_start": "2025-01-01",
+        "separations": 3
+      },
+      {
+        "attrition_denominator": 433.75,
+        "attrition_numerator": 9,
+        "attrition_rate": 0.020749,
+        "calendar_days": 28,
+        "ending_headcount": 433,
+        "hires": 10,
+        "metric_contract_version": "v1",
+        "period_end": "2025-02-28",
+        "period_start": "2025-02-01",
+        "separations": 9
+      },
+      {
+        "attrition_denominator": 436.55,
+        "attrition_numerator": 2,
+        "attrition_rate": 0.004581,
+        "calendar_days": 31,
+        "ending_headcount": 441,
+        "hires": 10,
+        "metric_contract_version": "v1",
+        "period_end": "2025-03-31",
+        "period_start": "2025-03-01",
+        "separations": 2
+      },
+      {
+        "attrition_denominator": 443.1,
+        "attrition_numerator": 9,
+        "attrition_rate": 0.020311,
+        "calendar_days": 30,
+        "ending_headcount": 442,
+        "hires": 10,
+        "metric_contract_version": "v1",
+        "period_end": "2025-04-30",
+        "period_start": "2025-04-01",
+        "separations": 9
+      },
+      {
+        "attrition_denominator": 445.23,
+        "attrition_numerator": 5,
+        "attrition_rate": 0.01123,
+        "calendar_days": 31,
+        "ending_headcount": 446,
+        "hires": 9,
+        "metric_contract_version": "v1",
+        "period_end": "2025-05-31",
+        "period_start": "2025-05-01",
+        "separations": 5
+      },
+      {
+        "attrition_denominator": 448.6,
+        "attrition_numerator": 4,
+        "attrition_rate": 0.008917,
+        "calendar_days": 30,
+        "ending_headcount": 449,
+        "hires": 7,
+        "metric_contract_version": "v1",
+        "period_end": "2025-06-30",
+        "period_start": "2025-06-01",
+        "separations": 4
+      },
+      {
+        "attrition_denominator": 449.9,
+        "attrition_numerator": 5,
+        "attrition_rate": 0.011114,
+        "calendar_days": 31,
+        "ending_headcount": 452,
+        "hires": 8,
+        "metric_contract_version": "v1",
+        "period_end": "2025-07-31",
+        "period_start": "2025-07-01",
+        "separations": 5
+      },
+      {
+        "attrition_denominator": 454.42,
+        "attrition_numerator": 8,
+        "attrition_rate": 0.017605,
+        "calendar_days": 31,
+        "ending_headcount": 460,
+        "hires": 16,
+        "metric_contract_version": "v1",
+        "period_end": "2025-08-31",
+        "period_start": "2025-08-01",
+        "separations": 8
+      },
+      {
+        "attrition_denominator": 458.33,
+        "attrition_numerator": 13,
+        "attrition_rate": 0.028364,
+        "calendar_days": 30,
+        "ending_headcount": 457,
+        "hires": 10,
+        "metric_contract_version": "v1",
+        "period_end": "2025-09-30",
+        "period_start": "2025-09-01",
+        "separations": 13
+      },
+      {
+        "attrition_denominator": 456.06,
+        "attrition_numerator": 12,
+        "attrition_rate": 0.026312,
+        "calendar_days": 31,
+        "ending_headcount": 457,
+        "hires": 12,
+        "metric_contract_version": "v1",
+        "period_end": "2025-10-31",
+        "period_start": "2025-10-01",
+        "separations": 12
+      },
+      {
+        "attrition_denominator": 460.77,
+        "attrition_numerator": 8,
+        "attrition_rate": 0.017362,
+        "calendar_days": 30,
+        "ending_headcount": 459,
+        "hires": 10,
+        "metric_contract_version": "v1",
+        "period_end": "2025-11-30",
+        "period_start": "2025-11-01",
+        "separations": 8
+      },
+      {
+        "attrition_denominator": 449.94,
+        "attrition_numerator": 11,
+        "attrition_rate": 0.024448,
+        "calendar_days": 31,
+        "ending_headcount": 448,
+        "hires": 0,
+        "metric_contract_version": "v1",
+        "period_end": "2025-12-31",
+        "period_start": "2025-12-01",
+        "separations": 11
+      }
+    ],
+    "quality": {
+      "by_type": [
+        {
+          "issue_count": 1,
+          "issue_type": "invalid_employment_date_range",
+          "severity": "error"
+        },
+        {
+          "issue_count": 1,
+          "issue_type": "invalid_job_history_date_range",
+          "severity": "error"
+        },
+        {
+          "issue_count": 1,
+          "issue_type": "overlapping_job_history",
+          "severity": "error"
+        },
+        {
+          "issue_count": 64,
+          "issue_type": "duplicate_source_versions",
+          "severity": "warning"
+        },
+        {
+          "issue_count": 1,
+          "issue_type": "missing_org_unit_reference",
+          "severity": "warning"
+        }
+      ],
+      "issue_count": 68
+    },
+    "reconciliation": {
+      "periods": [
+        {
+          "actual_ending_headcount": 249,
+          "difference": null,
+          "expected_ending_headcount": null,
+          "hires": 12,
+          "is_reconciled": true,
+          "opening_headcount": null,
+          "period_start": "2023-01-01",
+          "separations": 1
+        },
+        {
+          "actual_ending_headcount": 252,
+          "difference": 0,
+          "expected_ending_headcount": 252,
+          "hires": 6,
+          "is_reconciled": true,
+          "opening_headcount": 249,
+          "period_start": "2023-02-01",
+          "separations": 3
+        },
+        {
+          "actual_ending_headcount": 256,
+          "difference": 0,
+          "expected_ending_headcount": 256,
+          "hires": 5,
+          "is_reconciled": true,
+          "opening_headcount": 252,
+          "period_start": "2023-03-01",
+          "separations": 1
+        },
+        {
+          "actual_ending_headcount": 263,
+          "difference": 0,
+          "expected_ending_headcount": 263,
+          "hires": 8,
+          "is_reconciled": true,
+          "opening_headcount": 256,
+          "period_start": "2023-04-01",
+          "separations": 1
+        },
+        {
+          "actual_ending_headcount": 268,
+          "difference": 0,
+          "expected_ending_headcount": 268,
+          "hires": 8,
+          "is_reconciled": true,
+          "opening_headcount": 263,
+          "period_start": "2023-05-01",
+          "separations": 3
+        },
+        {
+          "actual_ending_headcount": 279,
+          "difference": 0,
+          "expected_ending_headcount": 279,
+          "hires": 13,
+          "is_reconciled": true,
+          "opening_headcount": 268,
+          "period_start": "2023-06-01",
+          "separations": 2
+        },
+        {
+          "actual_ending_headcount": 285,
+          "difference": 0,
+          "expected_ending_headcount": 285,
+          "hires": 8,
+          "is_reconciled": true,
+          "opening_headcount": 279,
+          "period_start": "2023-07-01",
+          "separations": 2
+        },
+        {
+          "actual_ending_headcount": 293,
+          "difference": 0,
+          "expected_ending_headcount": 293,
+          "hires": 11,
+          "is_reconciled": true,
+          "opening_headcount": 285,
+          "period_start": "2023-08-01",
+          "separations": 3
+        },
+        {
+          "actual_ending_headcount": 300,
+          "difference": 0,
+          "expected_ending_headcount": 300,
+          "hires": 9,
+          "is_reconciled": true,
+          "opening_headcount": 293,
+          "period_start": "2023-09-01",
+          "separations": 2
+        },
+        {
+          "actual_ending_headcount": 312,
+          "difference": 0,
+          "expected_ending_headcount": 312,
+          "hires": 12,
+          "is_reconciled": true,
+          "opening_headcount": 300,
+          "period_start": "2023-10-01",
+          "separations": 0
+        },
+        {
+          "actual_ending_headcount": 322,
+          "difference": 0,
+          "expected_ending_headcount": 322,
+          "hires": 13,
+          "is_reconciled": true,
+          "opening_headcount": 312,
+          "period_start": "2023-11-01",
+          "separations": 3
+        },
+        {
+          "actual_ending_headcount": 329,
+          "difference": 0,
+          "expected_ending_headcount": 329,
+          "hires": 9,
+          "is_reconciled": true,
+          "opening_headcount": 322,
+          "period_start": "2023-12-01",
+          "separations": 2
+        },
+        {
+          "actual_ending_headcount": 333,
+          "difference": 0,
+          "expected_ending_headcount": 333,
+          "hires": 8,
+          "is_reconciled": true,
+          "opening_headcount": 329,
+          "period_start": "2024-01-01",
+          "separations": 4
+        },
+        {
+          "actual_ending_headcount": 342,
+          "difference": 0,
+          "expected_ending_headcount": 342,
+          "hires": 11,
+          "is_reconciled": true,
+          "opening_headcount": 333,
+          "period_start": "2024-02-01",
+          "separations": 2
+        },
+        {
+          "actual_ending_headcount": 345,
+          "difference": 0,
+          "expected_ending_headcount": 345,
+          "hires": 10,
+          "is_reconciled": true,
+          "opening_headcount": 342,
+          "period_start": "2024-03-01",
+          "separations": 7
+        },
+        {
+          "actual_ending_headcount": 354,
+          "difference": 0,
+          "expected_ending_headcount": 354,
+          "hires": 12,
+          "is_reconciled": true,
+          "opening_headcount": 345,
+          "period_start": "2024-04-01",
+          "separations": 3
+        },
+        {
+          "actual_ending_headcount": 356,
+          "difference": 0,
+          "expected_ending_headcount": 356,
+          "hires": 8,
+          "is_reconciled": true,
+          "opening_headcount": 354,
+          "period_start": "2024-05-01",
+          "separations": 6
+        },
+        {
+          "actual_ending_headcount": 370,
+          "difference": 0,
+          "expected_ending_headcount": 370,
+          "hires": 17,
+          "is_reconciled": true,
+          "opening_headcount": 356,
+          "period_start": "2024-06-01",
+          "separations": 3
+        },
+        {
+          "actual_ending_headcount": 384,
+          "difference": 0,
+          "expected_ending_headcount": 384,
+          "hires": 14,
+          "is_reconciled": true,
+          "opening_headcount": 370,
+          "period_start": "2024-07-01",
+          "separations": 0
+        },
+        {
+          "actual_ending_headcount": 390,
+          "difference": 0,
+          "expected_ending_headcount": 390,
+          "hires": 9,
+          "is_reconciled": true,
+          "opening_headcount": 384,
+          "period_start": "2024-08-01",
+          "separations": 3
+        },
+        {
+          "actual_ending_headcount": 400,
+          "difference": 0,
+          "expected_ending_headcount": 400,
+          "hires": 10,
+          "is_reconciled": true,
+          "opening_headcount": 390,
+          "period_start": "2024-09-01",
+          "separations": 0
+        },
+        {
+          "actual_ending_headcount": 412,
+          "difference": 0,
+          "expected_ending_headcount": 412,
+          "hires": 14,
+          "is_reconciled": true,
+          "opening_headcount": 400,
+          "period_start": "2024-10-01",
+          "separations": 2
+        },
+        {
+          "actual_ending_headcount": 416,
+          "difference": 0,
+          "expected_ending_headcount": 416,
+          "hires": 12,
+          "is_reconciled": true,
+          "opening_headcount": 412,
+          "period_start": "2024-11-01",
+          "separations": 8
+        },
+        {
+          "actual_ending_headcount": 423,
+          "difference": 0,
+          "expected_ending_headcount": 423,
+          "hires": 10,
+          "is_reconciled": true,
+          "opening_headcount": 416,
+          "period_start": "2024-12-01",
+          "separations": 3
+        },
+        {
+          "actual_ending_headcount": 432,
+          "difference": 0,
+          "expected_ending_headcount": 432,
+          "hires": 12,
+          "is_reconciled": true,
+          "opening_headcount": 423,
+          "period_start": "2025-01-01",
+          "separations": 3
+        },
+        {
+          "actual_ending_headcount": 433,
+          "difference": 0,
+          "expected_ending_headcount": 433,
+          "hires": 10,
+          "is_reconciled": true,
+          "opening_headcount": 432,
+          "period_start": "2025-02-01",
+          "separations": 9
+        },
+        {
+          "actual_ending_headcount": 441,
+          "difference": 0,
+          "expected_ending_headcount": 441,
+          "hires": 10,
+          "is_reconciled": true,
+          "opening_headcount": 433,
+          "period_start": "2025-03-01",
+          "separations": 2
+        },
+        {
+          "actual_ending_headcount": 442,
+          "difference": 0,
+          "expected_ending_headcount": 442,
+          "hires": 10,
+          "is_reconciled": true,
+          "opening_headcount": 441,
+          "period_start": "2025-04-01",
+          "separations": 9
+        },
+        {
+          "actual_ending_headcount": 446,
+          "difference": 0,
+          "expected_ending_headcount": 446,
+          "hires": 9,
+          "is_reconciled": true,
+          "opening_headcount": 442,
+          "period_start": "2025-05-01",
+          "separations": 5
+        },
+        {
+          "actual_ending_headcount": 449,
+          "difference": 0,
+          "expected_ending_headcount": 449,
+          "hires": 7,
+          "is_reconciled": true,
+          "opening_headcount": 446,
+          "period_start": "2025-06-01",
+          "separations": 4
+        },
+        {
+          "actual_ending_headcount": 452,
+          "difference": 0,
+          "expected_ending_headcount": 452,
+          "hires": 8,
+          "is_reconciled": true,
+          "opening_headcount": 449,
+          "period_start": "2025-07-01",
+          "separations": 5
+        },
+        {
+          "actual_ending_headcount": 460,
+          "difference": 0,
+          "expected_ending_headcount": 460,
+          "hires": 16,
+          "is_reconciled": true,
+          "opening_headcount": 452,
+          "period_start": "2025-08-01",
+          "separations": 8
+        },
+        {
+          "actual_ending_headcount": 457,
+          "difference": 0,
+          "expected_ending_headcount": 457,
+          "hires": 10,
+          "is_reconciled": true,
+          "opening_headcount": 460,
+          "period_start": "2025-09-01",
+          "separations": 13
+        },
+        {
+          "actual_ending_headcount": 457,
+          "difference": 0,
+          "expected_ending_headcount": 457,
+          "hires": 12,
+          "is_reconciled": true,
+          "opening_headcount": 457,
+          "period_start": "2025-10-01",
+          "separations": 12
+        },
+        {
+          "actual_ending_headcount": 459,
+          "difference": 0,
+          "expected_ending_headcount": 459,
+          "hires": 10,
+          "is_reconciled": true,
+          "opening_headcount": 457,
+          "period_start": "2025-11-01",
+          "separations": 8
+        },
+        {
+          "actual_ending_headcount": 448,
+          "difference": 0,
+          "expected_ending_headcount": 448,
+          "hires": 0,
+          "is_reconciled": true,
+          "opening_headcount": 459,
+          "period_start": "2025-12-01",
+          "separations": 11
+        }
+      ],
+      "summary": {
+        "maximum_difference": 0,
+        "period_count": 36,
+        "reconciled_period_count": 36
+      }
+    },
+    "summary": {
+      "daily_fact_count": 402141,
+      "ending_headcount": 448,
+      "event_count": 774,
+      "monthly_period_count": 36,
+      "quality_issue_count": 68
+    }
+  }
+}

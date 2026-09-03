@@ -1,0 +1,76 @@
+{
+  "artifact_id": "presentation.platform.v1",
+  "artifact_type": "platform",
+  "contract_id": "analytics-portfolio-presentation-v1",
+  "contract_version": 1,
+  "data": {
+    "artifact_inventory": [
+      "presentation.lineage.v1",
+      "presentation.people.v1",
+      "presentation.platform.v1",
+      "presentation.quality.v1",
+      "presentation.wage.v1"
+    ],
+    "capabilities": [
+      {
+        "id": "warehouse_analytics",
+        "status": "active"
+      },
+      {
+        "id": "dagster_orchestration",
+        "status": "active"
+      },
+      {
+        "id": "presentation_contract",
+        "status": "active"
+      },
+      {
+        "id": "nextjs_frontend",
+        "status": "planned"
+      },
+      {
+        "id": "vercel_deployment",
+        "status": "planned"
+      },
+      {
+        "id": "vector_ready_contract",
+        "status": "optional_boundary"
+      },
+      {
+        "id": "embedding_generation",
+        "status": "deferred_optional"
+      },
+      {
+        "id": "vector_database",
+        "status": "deferred_optional"
+      },
+      {
+        "id": "rag_agent",
+        "status": "deferred_optional"
+      }
+    ],
+    "consumption_policy": {
+      "browser_bigquery_access": false,
+      "canonical_metric_calculation_in_frontend": false,
+      "frontend_role": "visualization_filtering_interaction_formatting",
+      "platform_role": "metrics_quality_reconciliation_provenance"
+    },
+    "data_products": [
+      {
+        "domain": "people",
+        "metric_count": 4,
+        "source_relation": "metrics_people_monthly"
+      },
+      {
+        "domain": "wage",
+        "metric_count": 4,
+        "source_relation": "metrics_wage_published"
+      }
+    ],
+    "domain_count": 2,
+    "snapshot_semantics": {
+      "live_data": false,
+      "refresh_mode": "explicit_governed_snapshot"
+    }
+  }
+}

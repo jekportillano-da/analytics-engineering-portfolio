@@ -1,0 +1,200 @@
+{
+  "artifact_id": "presentation.lineage.v1",
+  "artifact_type": "lineage",
+  "contract_id": "analytics-portfolio-presentation-v1",
+  "contract_version": 1,
+  "data": {
+    "architecture": {
+      "edges": [
+        {
+          "from": "sources",
+          "status": "active",
+          "to": "ingestion"
+        },
+        {
+          "from": "ingestion",
+          "status": "active",
+          "to": "bigquery_raw"
+        },
+        {
+          "from": "bigquery_raw",
+          "status": "active",
+          "to": "dbt"
+        },
+        {
+          "from": "dbt",
+          "status": "active",
+          "to": "governed_products"
+        },
+        {
+          "from": "governed_products",
+          "status": "active",
+          "to": "presentation_contract"
+        },
+        {
+          "from": "presentation_contract",
+          "status": "planned",
+          "to": "nextjs"
+        },
+        {
+          "from": "nextjs",
+          "status": "planned",
+          "to": "vercel"
+        },
+        {
+          "from": "governed_products",
+          "status": "deferred_optional",
+          "to": "vector_ready"
+        },
+        {
+          "from": "vector_ready",
+          "status": "deferred_optional",
+          "to": "embedding"
+        },
+        {
+          "from": "embedding",
+          "status": "deferred_optional",
+          "to": "vector_store"
+        },
+        {
+          "from": "vector_store",
+          "status": "deferred_optional",
+          "to": "semantic_consumer"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "sources",
+          "label": "Domain sources",
+          "status": "active"
+        },
+        {
+          "id": "ingestion",
+          "label": "Validated ingestion",
+          "status": "active"
+        },
+        {
+          "id": "bigquery_raw",
+          "label": "BigQuery raw",
+          "status": "active"
+        },
+        {
+          "id": "dbt",
+          "label": "dbt staging / intermediate / marts",
+          "status": "active"
+        },
+        {
+          "id": "governed_products",
+          "label": "Governed data products",
+          "status": "active"
+        },
+        {
+          "id": "presentation_contract",
+          "label": "Presentation contract",
+          "status": "active"
+        },
+        {
+          "id": "nextjs",
+          "label": "Next.js frontend",
+          "status": "planned"
+        },
+        {
+          "id": "vercel",
+          "label": "Vercel deployment",
+          "status": "planned"
+        },
+        {
+          "id": "vector_ready",
+          "label": "Vector-ready contract",
+          "status": "optional_boundary"
+        },
+        {
+          "id": "embedding",
+          "label": "Embedding provider",
+          "status": "deferred_optional"
+        },
+        {
+          "id": "vector_store",
+          "label": "Vector store",
+          "status": "deferred_optional"
+        },
+        {
+          "id": "semantic_consumer",
+          "label": "Semantic / RAG / agent consumer",
+          "status": "deferred_optional"
+        }
+      ]
+    },
+    "provenance": [
+      {
+        "canonical_endpoint": "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/OWS/O10/0011B3E2001.px",
+        "extraction_id": "extraction_bf081b6458a5f949ba326ad2fe5aa61de878bbbb453927151a80fda9c08c9dab",
+        "first_retrieval_id": "retrieval_1c1a7203-d778-44ca-866d-7b02535c71c6",
+        "first_retrieved_at": "2026-09-03T06:32:19.459484Z",
+        "identifier_version": "portfolio-v2",
+        "matrix_id": "0011B3E2001.px",
+        "matrix_title": "Average Monthly Basic Pay, Allowance, and Wage Rates of Time-Rated Workers on Full-Time Basis by Major Industry Group, Philippines: August 2024",
+        "reference_year": 2024,
+        "source_artifact_id": "artifact_fb96826f01dd6168ba081539d33a246b3a833f5a6286ab439b64cffa35826d03",
+        "source_publisher": "Philippine Statistics Authority"
+      },
+      {
+        "canonical_endpoint": "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/OWS/O10/0021B3E2002.px",
+        "extraction_id": "extraction_bc346b2f6cb142f0447dd6b1465d69c5b6e6bc520b692f6f78d31e01f7c61349",
+        "first_retrieval_id": "retrieval_d2cf011f-d12c-476f-8ba0-d84c966546ef",
+        "first_retrieved_at": "2026-09-03T06:32:22.044479Z",
+        "identifier_version": "portfolio-v2",
+        "matrix_id": "0021B3E2002.px",
+        "matrix_title": "Average Monthly Basic Pay, Allowance, and Wage Rates of Time-Rated Workers on Full-Time Basis by Region, Philippines: August 2024",
+        "reference_year": 2024,
+        "source_artifact_id": "artifact_7c012d9a74493acdee1e7604be0c999eaed2738be8a398f84ac36ca1fb0adbe9",
+        "source_publisher": "Philippine Statistics Authority"
+      },
+      {
+        "canonical_endpoint": "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/OWS/O10/0051B3E2005.px",
+        "extraction_id": "extraction_d06346aeb5001948d450b16e68ea7c14f09fdd59f96f8c24ee15c6c43b6efd96",
+        "first_retrieval_id": "retrieval_173acc0a-dead-4f92-b474-af0524db23f9",
+        "first_retrieved_at": "2026-09-03T06:32:25.222620Z",
+        "identifier_version": "portfolio-v2",
+        "matrix_id": "0051B3E2005.px",
+        "matrix_title": "Table 5. Average Monthly Wage Rates of Benchmark Occupation: General Office Clerks  by Sex and Major Industry Group, Philippines: August 2024",
+        "reference_year": 2024,
+        "source_artifact_id": "artifact_a0dec51f13d107d3508e20ba04f630e58716280e381ffc85be4fc75063a65a76",
+        "source_publisher": "Philippine Statistics Authority"
+      },
+      {
+        "canonical_endpoint": "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/OWS/O10/0071B3E2007.px",
+        "extraction_id": "extraction_82ab4ee15e6dd968d4404fc5b016528666f950105c2f8fc65d971a2428a57494",
+        "first_retrieval_id": "retrieval_60bdae1e-5ca9-478b-aedd-ff770a7b6204",
+        "first_retrieved_at": "2026-09-03T06:32:28.339058Z",
+        "identifier_version": "portfolio-v2",
+        "matrix_id": "0071B3E2007.px",
+        "matrix_title": "Average Monthly Wage Rates of Benchmark Occupation: Elementary Occupations by Sex and Major Industry Group, Philippines: August 2024",
+        "reference_year": 2024,
+        "source_artifact_id": "artifact_a209c065dbee4d38873322ef784840b78220b473660b3d02fe733229ae709360",
+        "source_publisher": "Philippine Statistics Authority"
+      }
+    ],
+    "source_contracts": {
+      "metrics": "analytics-portfolio-governed-metrics-v1",
+      "presentation": "analytics-portfolio-presentation-v1"
+    },
+    "source_relations": {
+      "people": [
+        "metrics_people_monthly",
+        "mart_data_quality_issues",
+        "mart_headcount_reconciliation"
+      ],
+      "platform": [
+        "mart_analytics_governance_summary"
+      ],
+      "wage": [
+        "mart_industry_wages_2024",
+        "mart_regional_wages_2024",
+        "mart_benchmark_occupation_wages_2024",
+        "mart_wage_observation_reconciliation",
+        "ows_matrix_metadata"
+      ]
+    }
+  }
+}

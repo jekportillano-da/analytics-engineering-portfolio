@@ -23,6 +23,7 @@ dependencies = [
 people-local-demo = "analytics_platform.domains.people.cli:main"
 people-bigquery-demo = "analytics_platform.domains.people.bigquery_cli:main"
 wage-openstat-ingest = "analytics_platform.domains.wage.cli:main"
+portfolio-presentation = "analytics_platform.presentation.cli:main"
 
 [dependency-groups]
 test = [

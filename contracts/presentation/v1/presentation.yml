@@ -1,0 +1,32 @@
+contract_version: 1
+contract_id: analytics-portfolio-presentation-v1
+consumer: planned Next.js frontend
+
+artifacts:
+  - platform.json
+  - people.json
+  - wage.json
+  - quality.json
+  - lineage.json
+
+envelope:
+  required:
+    - contract_version
+    - contract_id
+    - artifact_id
+    - artifact_type
+    - data
+  artifact_id_format: presentation.<artifact_type>.v1
+
+safety:
+  canonical_json: true
+  browser_bigquery_access: false
+  browser_credentials_allowed: false
+  row_level_people_records_allowed: false
+  canonical_metric_recalculation_in_frontend: false
+  metadata_paths_must_be_repository_relative: true
+
+refresh:
+  governed_snapshot_requires_cloud_credentials: true
+  artifact_generation_requires_network: false
+  artifact_validation_requires_network: false

@@ -53,3 +53,18 @@ dbt docs generate --project-dir dbt --profiles-dir dbt --target bigquery
 `manifest.json`, `catalog.json`, and `index.html` remain ignored under `dbt/target`.
 The manifest contains source-to-staging-to-intermediate-to-mart dependencies,
 relationship tests, grains, and People/Wage ownership metadata.
+
+## Presentation boundary
+
+Governed outputs now feed a versioned presentation contract before any planned
+frontend consumption:
+
+```text
+Governed Data Products -> Presentation Contract -> Next.js -> Vercel
+       active                    active             planned    planned
+```
+
+The presentation generator copies already-calculated metrics, quality states,
+reconciliation, and compact provenance into deterministic JSON. It does not move
+analytical formulas into frontend code. Next.js and Vercel are integration targets,
+not deployed components. See `docs/frontend-handoff.md` for the V1 consumer rules.
