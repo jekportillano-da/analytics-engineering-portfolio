@@ -1,0 +1,126 @@
+version: 2
+
+models:
+  - name: metrics_people_monthly
+    description: >-
+      Executable V1 relational metric contract at one row per calendar month.
+      It exposes the already validated People definitions without changing their
+      formulas: ending headcount is the final daily headcount in the month; hires
+      and separations are event counts in the month; attrition rate is monthly
+      separations divided by average daily headcount. These values have no valid
+      organizational dimensions in the current monthly source model.
+    config:
+      meta:
+        owner: analytics-engineering
+        domain: people
+        grain: period_start
+        contract_version: v1
+    columns:
+      - name: metric_contract_version
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [v1]
+      - name: period_start
+        description: First calendar date of the metric month.
+        data_tests: [not_null, unique]
+      - name: period_end
+        description: Final calendar date represented in the metric month.
+        data_tests: [not_null]
+      - name: ending_headcount
+        description: Point-in-time active employment-spell count at period_end; not additive across time.
+        data_tests: [not_null]
+      - name: hires
+        description: First-hire and rehire events occurring in the month.
+        data_tests: [not_null]
+      - name: separations
+        description: Separation events occurring in the month.
+        data_tests: [not_null]
+      - name: attrition_rate
+        description: separations divided by average daily headcount for the month; not additive or averageable across periods.
+        data_tests: [not_null]
+      - name: attrition_numerator
+        description: Monthly separations used by the validated attrition formula.
+        data_tests: [not_null]
+      - name: attrition_denominator
+        description: Average daily headcount used by the validated attrition formula.
+        data_tests: [not_null]
+
+  - name: metrics_wage_published
+    description: >-
+      Executable V1 relational measure contract at one row per governed PSA OWS
+      observation. Basic Pay, Allowance, Wage Rate, and Benchmark Occupation Wage
+      Rate remain source-published non-additive values addressable only by their
+      applicable 2024 matrix dimensions. No cross-category sum or average is applied.
+    config:
+      meta:
+        owner: analytics-engineering
+        domain: wage
+        grain: wage_observation_id
+        contract_version: v1
+    columns:
+      - name: metric_contract_version
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [v1]
+      - name: wage_observation_id
+        data_tests: [not_null, unique]
+      - name: reference_year
+        description: PSA source reference year; operational retrieval time is modeled separately.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [2024]
+                quote: false
+      - name: wage_measure_id
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [basic_pay, allowance, wage_rate, benchmark_wage_rate]
+      - name: wage_measure_name
+        data_tests: [not_null]
+      - name: source_artifact_id
+        data_tests: [not_null]
+      - name: retrieval_id
+        data_tests: [not_null]
+
+  - name: mart_analytics_governance_summary
+    description: >-
+      Five-row reviewer surface covering People quality issues, People headcount
+      reconciliation, Wage raw-to-mart reconciliation, and operational freshness
+      for both domains. Reference periods and operational timestamps are separate.
+    config:
+      meta:
+        owner: analytics-engineering
+        domain: platform-governance
+        grain: governance_check_id
+    columns:
+      - name: governance_check_id
+        data_tests: [not_null, unique]
+      - name: domain
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [people, wage]
+      - name: check_type
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [quality, reconciliation, freshness]
+      - name: status
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [passed, warn, failed, review_required]
+      - name: source_reference_period
+        data_tests: [not_null]
+      - name: evaluated_at
+        data_tests: [not_null]

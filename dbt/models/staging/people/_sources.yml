@@ -5,6 +5,10 @@ sources:
     description: Generated source-system extracts loaded without business transformation.
     database: "{{ env_var('BIGQUERY_PROJECT') if target.type == 'bigquery' else target.database }}"
     schema: "{{ env_var('PEOPLE_BIGQUERY_RAW_DATASET') if target.type == 'bigquery' else 'raw' }}"
+    config:
+      meta:
+        owner: analytics-engineering
+        domain: people
     tables:
       - name: workers
       - name: employment_spells
@@ -13,3 +17,11 @@ sources:
       - name: org_units
       - name: locations
       - name: file_manifest
+        description: >-
+          One row per loaded People source file. loaded_at is operational load
+          freshness metadata and is not the workforce analysis reference period.
+        config:
+          loaded_at_field: loaded_at
+          freshness:
+            warn_after: {count: 48, period: hour}
+            error_after: {count: 168, period: hour}

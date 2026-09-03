@@ -1,0 +1,134 @@
+contract_version: 1
+contract_id: analytics-portfolio-governed-metrics-v1
+
+mechanism:
+  type: relational_metric_contract
+  executable_via: dbt models and warehouse SQL
+  native_dbt_semantic_layer: false
+  rationale: >-
+    dbt Core parses semantic metadata but this installed stack has no supported
+    MetricFlow query CLI or semantic service. The governed relational surfaces
+    are executable and tested without adding a disproportionate runtime.
+
+freshness_contracts:
+  people:
+    source: raw.file_manifest
+    operational_timestamp: loaded_at
+    warn_after_hours: 48
+    error_after_hours: 168
+    reference_period: synthetic analysis window 2023-01-01 through 2025-12-31
+  wage:
+    source: wage_raw.ows_ingestion_runs
+    operational_timestamp: retrieval_completed_at
+    success_condition: retrieval_status = succeeded and extraction_status = succeeded
+    warn_after_hours: 48
+    error_after_hours: 168
+    reference_period: PSA 2024 Occupational Wages Survey
+
+metrics:
+  - metric_id: people.ending_headcount
+    domain: people
+    source_model: metrics_people_monthly
+    value_field: ending_headcount
+    definition: Active employment-spell count on the final represented calendar date of the month.
+    time_grain: month
+    time_field: period_start
+    aggregation_behavior: point_in_time_not_additive
+    numerator: null
+    denominator: null
+    valid_dimension_sets:
+      - [period_start, period_end]
+    limitations: No organization, job, or location breakout exists in the validated monthly source model.
+
+  - metric_id: people.hires
+    domain: people
+    source_model: metrics_people_monthly
+    value_field: hires
+    definition: Count of first-hire and rehire events occurring within the month.
+    time_grain: month
+    time_field: period_start
+    aggregation_behavior: additive_over_non_overlapping_periods
+    numerator: null
+    denominator: null
+    valid_dimension_sets:
+      - [period_start, period_end]
+    limitations: Based on valid synthetic employment spells within the configured analysis window.
+
+  - metric_id: people.separations
+    domain: people
+    source_model: metrics_people_monthly
+    value_field: separations
+    definition: Count of separation events occurring within the month.
+    time_grain: month
+    time_field: period_start
+    aggregation_behavior: additive_over_non_overlapping_periods
+    numerator: null
+    denominator: null
+    valid_dimension_sets:
+      - [period_start, period_end]
+    limitations: Based on valid synthetic employment spells within the configured analysis window.
+
+  - metric_id: people.attrition_rate
+    domain: people
+    source_model: metrics_people_monthly
+    value_field: attrition_rate
+    definition: Monthly separations divided by average daily headcount for the same month.
+    time_grain: month
+    time_field: period_start
+    aggregation_behavior: ratio_not_additive_or_averageable
+    numerator: attrition_numerator
+    denominator: attrition_denominator
+    valid_dimension_sets:
+      - [period_start, period_end]
+    limitations: Recompute from additive components for a different period; do not sum or average monthly rates.
+
+  - metric_id: wage.basic_pay
+    domain: wage
+    source_model: metrics_wage_published
+    value_field: measure_value
+    filter: wage_measure_id = basic_pay
+    definition: PSA-published average monthly Basic Pay for the applicable major industry or region category.
+    reference_year: 2024
+    aggregation_behavior: source_value_not_additive
+    valid_dimension_sets:
+      - [reference_year, industry_code, industry_name]
+      - [reference_year, region_code, region_name]
+    limitations: Establishment-level OWS summary; source unit is not populated and values must not be summed or averaged across categories.
+
+  - metric_id: wage.allowance
+    domain: wage
+    source_model: metrics_wage_published
+    value_field: measure_value
+    filter: wage_measure_id = allowance
+    definition: PSA-published average monthly Allowance for the applicable major industry or region category.
+    reference_year: 2024
+    aggregation_behavior: source_value_not_additive
+    valid_dimension_sets:
+      - [reference_year, industry_code, industry_name]
+      - [reference_year, region_code, region_name]
+    limitations: Establishment-level OWS summary; source unit is not populated and values must not be summed or averaged across categories.
+
+  - metric_id: wage.wage_rate
+    domain: wage
+    source_model: metrics_wage_published
+    value_field: measure_value
+    filter: wage_measure_id = wage_rate
+    definition: PSA-published average monthly Wage Rate for the applicable major industry or region category.
+    reference_year: 2024
+    aggregation_behavior: source_value_not_additive
+    valid_dimension_sets:
+      - [reference_year, industry_code, industry_name]
+      - [reference_year, region_code, region_name]
+    limitations: Kept distinct from Basic Pay and Allowance; values must not be summed or averaged across categories.
+
+  - metric_id: wage.benchmark_occupation_wage_rate
+    domain: wage
+    source_model: metrics_wage_published
+    value_field: measure_value
+    filter: wage_measure_id = benchmark_wage_rate
+    definition: PSA-published average monthly Wage Rate for a selected benchmark occupation, sex, and major industry category.
+    reference_year: 2024
+    aggregation_behavior: source_value_not_additive
+    valid_dimension_sets:
+      - [reference_year, benchmark_occupation_id, benchmark_occupation_name, industry_code, industry_name, sex_code, sex]
+    limitations: Covers only General Office Clerks and Elementary Occupations; no source occupation code or broader taxonomy is supplied.

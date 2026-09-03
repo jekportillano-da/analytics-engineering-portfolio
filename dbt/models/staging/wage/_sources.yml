@@ -20,4 +20,13 @@ sources:
       - name: ows_matrix_metadata
         description: One row per accepted matrix extraction and source artifact.
       - name: ows_ingestion_runs
-        description: One row per OpenSTAT retrieval attempt, including repeat retrievals.
+        description: >-
+          One row per OpenSTAT retrieval attempt, including repeat retrievals.
+          retrieval_completed_at measures operational retrieval freshness; the
+          source reference period remains the separately modeled year 2024.
+        config:
+          loaded_at_field: retrieval_completed_at
+          freshness:
+            warn_after: {count: 48, period: hour}
+            error_after: {count: 168, period: hour}
+            filter: "retrieval_status = 'succeeded' and extraction_status = 'succeeded'"
