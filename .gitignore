@@ -59,6 +59,12 @@ logs/
 
 # Orchestration local state
 .dagster/
+.tmp_dagster_home_*/
+dagster_home/
+dagster.yaml
+run_storage/
+event_log_storage/
+compute_logs/
 storage/
 
 # Generated data and outputs
