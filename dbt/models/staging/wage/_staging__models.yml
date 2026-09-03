@@ -1,0 +1,55 @@
+version: 2
+
+models:
+  - name: stg_wage_ows_observations
+    description: >-
+      One row per logical PSA 2024 OWS observation, with blank strings normalized,
+      source values kept at published precision, and artifact, extraction, request,
+      retrieval, and load lineage retained. Nullable dimensions remain null when
+      they do not apply to a matrix.
+    config:
+      meta:
+        owner: analytics-engineering
+        domain: wage
+        grain: logical_observation_id
+    columns:
+      - name: logical_observation_id
+        description: Stable semantic identity for one source observation.
+        data_tests: [not_null, unique]
+      - name: source_record_id
+        data_tests: [not_null]
+      - name: semantic_dataset_id
+        data_tests: [not_null]
+      - name: matrix_id
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - 0011B3E2001.px
+                  - 0021B3E2002.px
+                  - 0051B3E2005.px
+                  - 0071B3E2007.px
+      - name: reference_year
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [2024]
+                quote: false
+      - name: source_measure_name
+        data_tests: [not_null]
+      - name: source_artifact_id
+        data_tests: [not_null]
+      - name: retrieval_id
+        data_tests: [not_null]
+      - name: extraction_id
+        data_tests: [not_null]
+      - name: request_id
+        data_tests: [not_null]
+      - name: matrix_metadata_id
+        data_tests: [not_null]
+      - name: retrieval_completed_at
+        data_tests: [not_null]
+      - name: loaded_at
+        data_tests: [not_null]

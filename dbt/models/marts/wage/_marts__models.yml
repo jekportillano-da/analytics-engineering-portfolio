@@ -1,0 +1,305 @@
+version: 2
+
+models:
+  - name: dim_wage_industry
+    description: >-
+      One row per PSA 2024 OWS major-industry category present in the selected
+      industry and benchmark matrices. Leading PX hierarchy markers are removed
+      from the consumer name while the source label remains available in the fact.
+    config:
+      meta:
+        owner: analytics-engineering
+        domain: wage
+        grain: wage_industry_id
+    columns:
+      - name: wage_industry_id
+        data_tests: [not_null, unique]
+      - name: industry_name
+        data_tests: [not_null]
+
+  - name: dim_wage_region
+    description: One row per PSA geography category in the selected 2024 regional matrix.
+    config:
+      meta:
+        owner: analytics-engineering
+        domain: wage
+        grain: wage_region_id
+    columns:
+      - name: wage_region_id
+        data_tests: [not_null, unique]
+      - name: region_name
+        data_tests: [not_null]
+      - name: geography_type
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [region]
+
+  - name: dim_benchmark_occupation
+    description: >-
+      One row for each selected PSA benchmark occupation: General Office Clerks
+      and Elementary Occupations. Matrix identity is the governed key because
+      these sources do not publish a general occupation code or taxonomy.
+    config:
+      meta:
+        owner: analytics-engineering
+        domain: wage
+        grain: benchmark_occupation_id
+    columns:
+      - name: benchmark_occupation_id
+        data_tests: [not_null, unique]
+      - name: benchmark_occupation_name
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [General Office Clerks, Elementary Occupations]
+      - name: source_matrix_id
+        data_tests: [not_null, unique]
+
+  - name: dim_wage_measure
+    description: >-
+      Governed measure identities for Basic Pay, Allowance, Wage Rate, and the
+      matrix-scoped Benchmark Occupation Wage Rate. Source item codes are retained
+      when PSA publishes them; no source code is manufactured for benchmark tables.
+    config:
+      meta:
+        owner: analytics-engineering
+        domain: wage
+        grain: wage_measure_id
+    columns:
+      - name: wage_measure_id
+        data_tests:
+          - not_null
+          - unique
+          - accepted_values:
+              arguments:
+                values: [basic_pay, allowance, wage_rate, benchmark_wage_rate]
+      - name: wage_measure_name
+        data_tests: [not_null]
+      - name: source_scope
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [industry_and_region, benchmark_occupation]
+
+  - name: fct_wage_observations
+    description: >-
+      Governed PSA 2024 OWS observation fact. Grain is reference year plus source
+      matrix scope, applicable industry or geography, applicable benchmark
+      occupation and sex, and wage measure. It contains establishment-level
+      summary statistics, not individual salaries. Nullable dimensional keys are
+      expected when a source matrix does not publish that dimension.
+    config:
+      meta:
+        owner: analytics-engineering
+        domain: wage
+        grain: logical_observation_id
+    columns:
+      - name: wage_observation_id
+        data_tests: [not_null, unique]
+      - name: logical_observation_id
+        data_tests: [not_null, unique]
+      - name: matrix_id
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - 0011B3E2001.px
+                  - 0021B3E2002.px
+                  - 0051B3E2005.px
+                  - 0071B3E2007.px
+      - name: matrix_scope
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - industry_wage_measures
+                  - regional_wage_measures
+                  - benchmark_occupation_wages
+      - name: reference_year
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [2024]
+                quote: false
+      - name: wage_industry_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_wage_industry')
+                field: wage_industry_id
+              config:
+                where: wage_industry_id is not null
+      - name: wage_region_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_wage_region')
+                field: wage_region_id
+              config:
+                where: wage_region_id is not null
+      - name: benchmark_occupation_id
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [0051B3E2005.px, 0071B3E2007.px]
+              config:
+                where: benchmark_occupation_id is not null
+          - relationships:
+              arguments:
+                to: ref('dim_benchmark_occupation')
+                field: benchmark_occupation_id
+              config:
+                where: benchmark_occupation_id is not null
+      - name: wage_measure_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_wage_measure')
+                field: wage_measure_id
+      - name: source_measure_name
+        data_tests: [not_null]
+      - name: source_artifact_id
+        data_tests: [not_null]
+      - name: retrieval_id
+        data_tests: [not_null]
+      - name: extraction_id
+        data_tests: [not_null]
+
+  - name: mart_industry_wages_2024
+    description: >-
+      One row per 2024 major-industry category with PSA Average Monthly Basic Pay,
+      Allowance, and Wage Rate in separate columns. V1 covers the OWS survey
+      population and major groups only; it is not individual-level salary data.
+    config:
+      meta:
+        owner: analytics-engineering
+        domain: wage
+        grain: reference_year + industry_code
+    columns:
+      - name: industry_wage_mart_id
+        data_tests: [not_null, unique]
+      - name: source_matrix_id
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [0011B3E2001.px]
+      - name: wage_industry_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_wage_industry')
+                field: wage_industry_id
+      - name: average_monthly_basic_pay
+        data_tests: [not_null]
+      - name: average_monthly_allowance
+        data_tests: [not_null]
+      - name: average_monthly_wage_rate
+        data_tests: [not_null]
+
+  - name: mart_regional_wages_2024
+    description: >-
+      One row per 2024 PSA geography category with Average Monthly Basic Pay,
+      Allowance, and Wage Rate in separate columns. V1 is an establishment-level
+      OWS summary and is not individual-level salary data.
+    config:
+      meta:
+        owner: analytics-engineering
+        domain: wage
+        grain: reference_year + region_code
+    columns:
+      - name: regional_wage_mart_id
+        data_tests: [not_null, unique]
+      - name: source_matrix_id
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [0021B3E2002.px]
+      - name: wage_region_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_wage_region')
+                field: wage_region_id
+      - name: average_monthly_basic_pay
+        data_tests: [not_null]
+      - name: average_monthly_allowance
+        data_tests: [not_null]
+      - name: average_monthly_wage_rate
+        data_tests: [not_null]
+
+  - name: mart_benchmark_occupation_wages_2024
+    description: >-
+      One row per 2024 selected benchmark occupation, major industry, and source
+      sex category, exposing the published Average Monthly Wage Rate. V1 contains
+      only General Office Clerks and Elementary Occupations and is not a complete
+      occupation-wage database or individual salary data.
+    config:
+      meta:
+        owner: analytics-engineering
+        domain: wage
+        grain: reference_year + benchmark_occupation_id + industry_code + sex_code
+    columns:
+      - name: benchmark_wage_mart_id
+        data_tests: [not_null, unique]
+      - name: benchmark_occupation_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_benchmark_occupation')
+                field: benchmark_occupation_id
+      - name: benchmark_occupation_name
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [General Office Clerks, Elementary Occupations]
+      - name: wage_industry_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_wage_industry')
+                field: wage_industry_id
+      - name: sex
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [Both Sexes, Male, Female]
+
+  - name: mart_wage_observation_reconciliation
+    description: One row per V1 matrix reconciling raw, staging, normalized fact, and mart-accounted observations.
+    config:
+      meta:
+        owner: analytics-engineering
+        domain: wage
+        grain: matrix_id
+    columns:
+      - name: matrix_id
+        data_tests: [not_null, unique]
+      - name: raw_observation_count
+        data_tests: [not_null]
+      - name: staging_observation_count
+        data_tests: [not_null]
+      - name: intermediate_observation_count
+        data_tests: [not_null]
+      - name: fact_observation_count
+        data_tests: [not_null]
+      - name: mart_accounted_observation_count
+        data_tests: [not_null]
+      - name: is_reconciled
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [true]
+                quote: false

@@ -1,0 +1,23 @@
+version: 2
+
+sources:
+  - name: wage_raw
+    description: >-
+      Immutable public PSA OpenSTAT 2024 Occupational Wages Survey raw product.
+      V1 covers formal establishments employing 10 or more workers under PSA's
+      published survey scope and exclusions. It is establishment-level summary
+      data, not individual salary data or a complete occupation-wage database.
+    database: "{{ env_var('BIGQUERY_PROJECT') if target.type == 'bigquery' else target.database }}"
+    schema: "{{ env_var('WAGE_BIGQUERY_RAW_DATASET', 'analytics_portfolio_wage_raw') if target.type == 'bigquery' else 'wage_raw' }}"
+    config:
+      enabled: "{{ target.type == 'bigquery' }}"
+      meta:
+        owner: analytics-engineering
+        domain: wage
+    tables:
+      - name: ows_observations
+        description: One immutable row per accepted logical PSA OWS observation.
+      - name: ows_matrix_metadata
+        description: One row per accepted matrix extraction and source artifact.
+      - name: ows_ingestion_runs
+        description: One row per OpenSTAT retrieval attempt, including repeat retrievals.

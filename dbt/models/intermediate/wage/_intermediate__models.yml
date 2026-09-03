@@ -1,0 +1,96 @@
+version: 2
+
+models:
+  - name: int_wage_industry_measures
+    description: >-
+      One row per 2024 major-industry and PSA Item measure from matrix
+      0011B3E2001.px. Basic Pay, Allowance, and Wage Rate remain separate.
+    config:
+      meta:
+        owner: analytics-engineering
+        domain: wage
+        grain: reference_year + industry_code + source_measure_code
+    columns:
+      - name: logical_observation_id
+        data_tests: [not_null, unique]
+      - name: industry_code
+        data_tests: [not_null]
+      - name: source_measure_code
+        data_tests: [not_null]
+      - name: wage_measure_id
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [basic_pay, allowance, wage_rate]
+
+  - name: int_wage_regional_measures
+    description: >-
+      One row per 2024 PSA region and Item measure from matrix 0021B3E2002.px.
+      Basic Pay, Allowance, and Wage Rate remain separate.
+    config:
+      meta:
+        owner: analytics-engineering
+        domain: wage
+        grain: reference_year + geography_code + source_measure_code
+    columns:
+      - name: logical_observation_id
+        data_tests: [not_null, unique]
+      - name: geography_code
+        data_tests: [not_null]
+      - name: geography_type
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [region]
+      - name: source_measure_code
+        data_tests: [not_null]
+      - name: wage_measure_id
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [basic_pay, allowance, wage_rate]
+
+  - name: int_benchmark_occupation_wages
+    description: >-
+      One row per 2024 benchmark occupation, major industry, and published sex
+      category from matrices 0051B3E2005.px and 0071B3E2007.px. The occupation
+      identity is matrix-scoped because PSA supplies no broad occupation code.
+    config:
+      meta:
+        owner: analytics-engineering
+        domain: wage
+        grain: reference_year + benchmark_occupation_id + industry_code + sex_code
+    columns:
+      - name: logical_observation_id
+        data_tests: [not_null, unique]
+      - name: benchmark_occupation_id
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [0051B3E2005.px, 0071B3E2007.px]
+      - name: occupation_name
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [General Office Clerks, Elementary Occupations]
+      - name: industry_code
+        data_tests: [not_null]
+      - name: sex_code
+        data_tests: [not_null]
+      - name: sex
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [Both Sexes, Male, Female]
+      - name: wage_measure_id
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [benchmark_wage_rate]
