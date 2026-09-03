@@ -12,7 +12,7 @@ from typing import Mapping
 
 PRESENTATION_CONTRACT_VERSION = 1
 PRESENTATION_CONTRACT_ID = "analytics-portfolio-presentation-v1"
-ARTIFACT_TYPES = ("lineage", "people", "platform", "quality", "wage")
+ARTIFACT_TYPES = ("insights", "lineage", "people", "platform", "quality", "wage")
 ARTIFACT_FILENAMES = tuple(f"{name}.json" for name in ARTIFACT_TYPES)
 
 _FORBIDDEN_KEY = re.compile(
@@ -122,6 +122,9 @@ def validate_artifact_directory(output_dir: Path) -> dict[str, dict[str, object]
         if path.read_text(encoding="utf-8") != canonical_json(artifact):
             raise PresentationContractError(f"artifact is not canonical JSON: {path.name}")
         artifacts[artifact_type] = artifact
+    from analytics_platform.presentation.insights import validate_insight_artifact
+
+    validate_insight_artifact(artifacts["insights"], artifacts)
     return artifacts
 
 
@@ -132,6 +135,9 @@ def write_artifacts(
         raise PresentationContractError("generator did not produce the complete artifact set")
     for artifact_type, artifact in artifacts.items():
         validate_artifact(artifact, artifact_type)
+    from analytics_platform.presentation.insights import validate_insight_artifact
+
+    validate_insight_artifact(artifacts["insights"], artifacts)
 
     output_dir.mkdir(parents=True, exist_ok=True)
     staged_paths: list[Path] = []

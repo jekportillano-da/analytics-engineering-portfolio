@@ -2,13 +2,14 @@
 
 ## Stable integration boundary
 
-The planned Next.js application must read the five committed JSON files under
+The planned Next.js application must read the six committed JSON files under
 `presentation/data/`. Their envelope is defined by
 `contracts/presentation/v1/presentation.yml` and identified as
 `analytics-portfolio-presentation-v1`.
 
 | Artifact | Purpose |
 | --- | --- |
+| `insights.json` | Authoritative executive questions, findings, evidence references, limitations, and investigation paths |
 | `platform.json` | Domains, data products, responsibility split, and capability status |
 | `people.json` | Governed monthly People metrics, quality summary, and reconciliation |
 | `wage.json` | Governed 2024 industry, regional, and benchmark-occupation wage products |
@@ -17,6 +18,15 @@ The planned Next.js application must read the five committed JSON files under
 
 All artifact IDs are stable (`presentation.<artifact-type>.v1`), every file is
 canonical UTF-8 JSON, and arrays are emitted in deterministic order.
+
+`insights.json` additionally conforms to
+`contracts/insights/v1/executive_insights.yml`, identified as
+`analytics-portfolio-executive-insights-v1`. Each insight has a stable
+`insight_id`, a stable `question_id`, declared governed `metric_ids`, and
+machine-resolvable evidence references. An evidence reference names the source
+presentation artifact, collection, record identity when applicable, field,
+observed value, governed source, period, and dimensions. This is the audit path
+for answering, "Why does the product say this?"
 
 ## Safe display and filtering
 
@@ -40,11 +50,20 @@ status check.
 The artifacts contain no row-level worker or employment records. They must remain
 free of credentials and machine-specific paths.
 
+The executive finding, narrative, comparison arithmetic, evidence state, and
+limitations in `insights.json` are also authoritative platform outputs. The
+frontend must not invent findings, reinterpret comparison methods or thresholds,
+or add causal explanations. It may visualize the referenced evidence, format
+values, filter approved presentation dimensions, navigate `next_question_ids`,
+animate transitions, provide drill-down interactions, and surface limitations or
+provenance.
+
 ## Responsibility boundary
 
 The analytics platform owns ingestion, metric calculation, aggregation,
-reconciliation, quality, provenance, and business definitions. The presentation
-application owns visualization, interaction, filtering over approved fields,
+reconciliation, quality, provenance, business definitions, deterministic
+comparison logic, and executive findings. The presentation application owns
+visualization, interaction, filtering over approved fields, question navigation,
 layout, accessibility, and formatting.
 
 Browser code must never connect directly to BigQuery or receive GCP credentials.
@@ -75,14 +94,33 @@ python -m analytics_platform.presentation.cli snapshot `
 
 The snapshot command reads governed relations only. It does not write BigQuery,
 retrieve PSA data, or calculate a metric. After an intentional refresh, regenerate
-the five files and review their diff.
+the six files and review their diff.
+
+## Executive insight and decision-support semantics
+
+The active analytical flow is:
+
+```text
+Governed Data Products
+  -> Presentation Contract
+  -> Executive Insight Engine
+  -> planned Executive Reporting Frontend
+  -> evidence-led Decision Support / Investigation
+```
+
+The insight engine is deterministic and offline. It identifies observable
+comparisons, extrema, and governance states from the presentation contract; it is
+not an LLM, recommendation engine, causal model, forecasting system, or automated
+decision maker. "Decision support" means giving an executive a traceable finding
+and a structured next question. Business decisions and causal investigation
+remain human responsibilities.
 
 ## Active, planned, and deferred capabilities
 
-The warehouse/dbt/governed-product/presentation-contract path is active. Next.js
-and Vercel are planned presentation targets and are not deployed. The vector-ready
-contract is an optional boundary; embeddings, vector storage, RAG, and agent
-consumers remain deferred and are not available to the frontend.
+The warehouse/dbt/governed-product/presentation-contract/insight-engine path is
+active. Next.js and Vercel are planned presentation targets and are not deployed.
+The vector-ready contract is an optional boundary; embeddings, vector storage,
+RAG, and agent consumers remain deferred and are not available to the frontend.
 
 ## Public CI boundary
 

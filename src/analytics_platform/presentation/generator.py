@@ -15,6 +15,10 @@ from analytics_platform.presentation.contract import (
     PresentationContractError,
     load_json,
 )
+from analytics_platform.presentation.insights import (
+    build_executive_insight_data,
+    validate_insight_artifact,
+)
 
 
 GOVERNED_SNAPSHOT_VERSION = 1
@@ -104,6 +108,7 @@ def _architecture() -> dict[str, object]:
         {"id": "dbt", "label": "dbt staging / intermediate / marts", "status": "active"},
         {"id": "governed_products", "label": "Governed data products", "status": "active"},
         {"id": "presentation_contract", "label": "Presentation contract", "status": "active"},
+        {"id": "insight_engine", "label": "Executive insight engine", "status": "active"},
         {"id": "nextjs", "label": "Next.js frontend", "status": "planned"},
         {"id": "vercel", "label": "Vercel deployment", "status": "planned"},
         {"id": "vector_ready", "label": "Vector-ready contract", "status": "optional_boundary"},
@@ -117,9 +122,10 @@ def _architecture() -> dict[str, object]:
         ("bigquery_raw", "dbt"),
         ("dbt", "governed_products"),
         ("governed_products", "presentation_contract"),
+        ("presentation_contract", "insight_engine"),
     ]
     planned_edges = [
-        ("presentation_contract", "nextjs"),
+        ("insight_engine", "nextjs"),
         ("nextjs", "vercel"),
     ]
     optional_edges = [
@@ -170,6 +176,7 @@ def build_presentation_artifacts(
         {"id": "warehouse_analytics", "status": "active"},
         {"id": "dagster_orchestration", "status": "active"},
         {"id": "presentation_contract", "status": "active"},
+        {"id": "executive_insight_engine", "status": "active"},
         {"id": "nextjs_frontend", "status": "planned"},
         {"id": "vercel_deployment", "status": "planned"},
         {"id": "vector_ready_contract", "status": "optional_boundary"},
@@ -245,6 +252,10 @@ def build_presentation_artifacts(
             },
         ),
     }
+    artifacts["insights"] = _artifact(
+        "insights", build_executive_insight_data(artifacts)
+    )
+    validate_insight_artifact(artifacts["insights"], artifacts)
     if set(artifacts) != set(ARTIFACT_TYPES):
         raise PresentationContractError("incomplete presentation artifact set")
     return artifacts

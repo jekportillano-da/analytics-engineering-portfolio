@@ -33,6 +33,11 @@
         },
         {
           "from": "presentation_contract",
+          "status": "active",
+          "to": "insight_engine"
+        },
+        {
+          "from": "insight_engine",
           "status": "planned",
           "to": "nextjs"
         },
@@ -91,6 +96,11 @@
         {
           "id": "presentation_contract",
           "label": "Presentation contract",
+          "status": "active"
+        },
+        {
+          "id": "insight_engine",
+          "label": "Executive insight engine",
           "status": "active"
         },
         {

@@ -3,6 +3,7 @@ contract_id: analytics-portfolio-presentation-v1
 consumer: planned Next.js frontend
 
 artifacts:
+  - insights.json
   - platform.json
   - people.json
   - wage.json

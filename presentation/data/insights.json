@@ -1,0 +1,634 @@
+{
+  "artifact_id": "presentation.insights.v1",
+  "artifact_type": "insights",
+  "contract_id": "analytics-portfolio-presentation-v1",
+  "contract_version": 1,
+  "data": {
+    "generation_mode": "deterministic_offline_from_presentation_contract",
+    "insight_contract_id": "analytics-portfolio-executive-insights-v1",
+    "insight_contract_version": 1,
+    "insights": [
+      {
+        "comparison": {
+          "comparison_value": 0.024448,
+          "method": "peak_to_latest_observed_period",
+          "peak_value": 0.028364,
+          "percentage_point_change": -0.39
+        },
+        "contract_version": 1,
+        "dimensions": {
+          "time_grain": "month"
+        },
+        "display_hint": {
+          "evidence_focus": "peak_and_latest_period",
+          "visualization": "line"
+        },
+        "domain": "people",
+        "evidence": [
+          {
+            "artifact_id": "presentation.people.v1",
+            "collection": "monthly",
+            "dimensions": {},
+            "field": "attrition_rate",
+            "governed_source": "metrics_people_monthly",
+            "metric_id": "people.attrition_rate",
+            "observed_value": 0.028364,
+            "period": "2025-09-01",
+            "record_id": "2025-09-01",
+            "record_key": "period_start"
+          },
+          {
+            "artifact_id": "presentation.people.v1",
+            "collection": "monthly",
+            "dimensions": {},
+            "field": "attrition_rate",
+            "governed_source": "metrics_people_monthly",
+            "metric_id": "people.attrition_rate",
+            "observed_value": 0.024448,
+            "period": "2025-12-01",
+            "record_id": "2025-12-01",
+            "record_key": "period_start"
+          }
+        ],
+        "evidence_state": "governed_observation",
+        "executive_question": "When was attrition pressure highest, and where did it stand at the end?",
+        "headline": "Monthly attrition peaked at 2.84% in September 2025",
+        "insight_id": "insight.people.attrition_pressure.v1",
+        "limitations": [
+          "Monthly attrition rates are ratios and must not be summed or averaged across periods.",
+          "The peak comparison describes timing and magnitude, not a cause."
+        ],
+        "metric_ids": [
+          "people.attrition_rate"
+        ],
+        "narrative": "The highest observed monthly attrition rate was 2.84% in September 2025. The final month was 2.44%, 0.39 percentage points below that peak.",
+        "next_question_ids": [
+          "question.people.hiring_separation_balance.v1",
+          "question.platform.evidence_trust.v1"
+        ],
+        "periods": [
+          "2025-09-01",
+          "2025-12-01"
+        ],
+        "question_id": "question.people.attrition_pressure.v1"
+      },
+      {
+        "comparison": {
+          "hires": 0,
+          "method": "minimum_monthly_hires_minus_separations",
+          "net_event_balance": -11,
+          "separations": 11
+        },
+        "contract_version": 1,
+        "dimensions": {
+          "time_grain": "month"
+        },
+        "display_hint": {
+          "evidence_focus": "lowest_net_event_balance_period",
+          "visualization": "grouped_bar"
+        },
+        "domain": "people",
+        "evidence": [
+          {
+            "artifact_id": "presentation.people.v1",
+            "collection": "monthly",
+            "dimensions": {},
+            "field": "hires",
+            "governed_source": "metrics_people_monthly",
+            "metric_id": "people.hires",
+            "observed_value": 0,
+            "period": "2025-12-01",
+            "record_id": "2025-12-01",
+            "record_key": "period_start"
+          },
+          {
+            "artifact_id": "presentation.people.v1",
+            "collection": "monthly",
+            "dimensions": {},
+            "field": "separations",
+            "governed_source": "metrics_people_monthly",
+            "metric_id": "people.separations",
+            "observed_value": 11,
+            "period": "2025-12-01",
+            "record_id": "2025-12-01",
+            "record_key": "period_start"
+          }
+        ],
+        "evidence_state": "governed_observation",
+        "executive_question": "When did hiring least offset separations?",
+        "headline": "Separations exceeded hires most in December 2025",
+        "insight_id": "insight.people.hiring_separation_balance.v1",
+        "limitations": [
+          "The event balance is an observed arithmetic comparison and does not establish why either metric changed.",
+          "Hires and separations use the governed employment-spell event definitions."
+        ],
+        "metric_ids": [
+          "people.hires",
+          "people.separations"
+        ],
+        "narrative": "December 2025 recorded 0 hires and 11 separations, a net event balance of -11. This was the largest monthly separation-over-hire gap in the observed window.",
+        "next_question_ids": [
+          "question.people.attrition_pressure.v1",
+          "question.people.workforce_direction.v1",
+          "question.platform.evidence_trust.v1"
+        ],
+        "periods": [
+          "2025-12-01"
+        ],
+        "question_id": "question.people.hiring_separation_balance.v1"
+      },
+      {
+        "comparison": {
+          "absolute_change": 199,
+          "baseline_value": 249,
+          "comparison_value": 448,
+          "method": "first_to_last_observed_period",
+          "percent_change": 79.92
+        },
+        "contract_version": 1,
+        "dimensions": {
+          "time_grain": "month"
+        },
+        "display_hint": {
+          "evidence_focus": "first_and_last_period",
+          "visualization": "line"
+        },
+        "domain": "people",
+        "evidence": [
+          {
+            "artifact_id": "presentation.people.v1",
+            "collection": "monthly",
+            "dimensions": {},
+            "field": "ending_headcount",
+            "governed_source": "metrics_people_monthly",
+            "metric_id": "people.ending_headcount",
+            "observed_value": 249,
+            "period": "2023-01-01",
+            "record_id": "2023-01-01",
+            "record_key": "period_start"
+          },
+          {
+            "artifact_id": "presentation.people.v1",
+            "collection": "monthly",
+            "dimensions": {},
+            "field": "ending_headcount",
+            "governed_source": "metrics_people_monthly",
+            "metric_id": "people.ending_headcount",
+            "observed_value": 448,
+            "period": "2025-12-01",
+            "record_id": "2025-12-01",
+            "record_key": "period_start"
+          }
+        ],
+        "evidence_state": "governed_observation",
+        "executive_question": "Is the workforce growing or contracting across the analysis window?",
+        "headline": "Workforce ended 79.9% above the first observed month",
+        "insight_id": "insight.people.workforce_direction.v1",
+        "limitations": [
+          "The workforce is synthetic and supports a portfolio demonstration, not a real employer decision.",
+          "The governed monthly model has no organization, job, or location breakout."
+        ],
+        "metric_ids": [
+          "people.ending_headcount"
+        ],
+        "narrative": "Ending headcount moved from 249 in January 2023 to 448 in December 2025, a net increase of 199 (79.9%) across the 36-month synthetic analysis window.",
+        "next_question_ids": [
+          "question.people.hiring_separation_balance.v1",
+          "question.people.attrition_pressure.v1",
+          "question.platform.evidence_trust.v1"
+        ],
+        "periods": [
+          "2023-01-01",
+          "2025-12-01"
+        ],
+        "question_id": "question.people.workforce_direction.v1"
+      },
+      {
+        "comparison": {
+          "method": "governed_control_summary",
+          "people_maximum_difference": 0,
+          "people_reconciled_periods": "36/36",
+          "wage_maximum_difference": 0,
+          "wage_reconciled_matrices": "4/4"
+        },
+        "contract_version": 1,
+        "dimensions": {
+          "domains": [
+            "people",
+            "wage"
+          ],
+          "status_semantics": "point_in_time"
+        },
+        "display_hint": {
+          "evidence_focus": "reconciliation_quality_and_freshness_controls",
+          "visualization": "status"
+        },
+        "domain": "platform",
+        "evidence": [
+          {
+            "artifact_id": "presentation.quality.v1",
+            "collection": "people_reconciliation.summary",
+            "dimensions": {},
+            "field": "reconciled_period_count",
+            "governed_source": "mart_headcount_reconciliation",
+            "metric_id": null,
+            "observed_value": 36,
+            "period": null,
+            "record_id": null,
+            "record_key": null
+          },
+          {
+            "artifact_id": "presentation.quality.v1",
+            "collection": "people_reconciliation.summary",
+            "dimensions": {},
+            "field": "maximum_difference",
+            "governed_source": "mart_headcount_reconciliation",
+            "metric_id": null,
+            "observed_value": 0,
+            "period": null,
+            "record_id": null,
+            "record_key": null
+          },
+          {
+            "artifact_id": "presentation.quality.v1",
+            "collection": "wage_reconciliation.summary",
+            "dimensions": {},
+            "field": "reconciled_matrix_count",
+            "governed_source": "mart_wage_reconciliation",
+            "metric_id": null,
+            "observed_value": 4,
+            "period": null,
+            "record_id": null,
+            "record_key": null
+          },
+          {
+            "artifact_id": "presentation.quality.v1",
+            "collection": "wage_reconciliation.summary",
+            "dimensions": {},
+            "field": "maximum_difference",
+            "governed_source": "mart_wage_reconciliation",
+            "metric_id": null,
+            "observed_value": 0,
+            "period": null,
+            "record_id": null,
+            "record_key": null
+          },
+          {
+            "artifact_id": "presentation.quality.v1",
+            "collection": "people_quality",
+            "dimensions": {},
+            "field": "issue_count",
+            "governed_source": "mart_data_quality_issues",
+            "metric_id": null,
+            "observed_value": 68,
+            "period": null,
+            "record_id": null,
+            "record_key": null
+          },
+          {
+            "artifact_id": "presentation.quality.v1",
+            "collection": "governance_checks",
+            "dimensions": {},
+            "field": "status",
+            "governed_source": "mart_analytics_governance_summary",
+            "metric_id": null,
+            "observed_value": "review_required",
+            "period": null,
+            "record_id": "people.quality_issues",
+            "record_key": "governance_check_id"
+          },
+          {
+            "artifact_id": "presentation.quality.v1",
+            "collection": "governance_checks",
+            "dimensions": {},
+            "field": "status",
+            "governed_source": "mart_analytics_governance_summary",
+            "metric_id": null,
+            "observed_value": "passed",
+            "period": null,
+            "record_id": "people.operational_freshness",
+            "record_key": "governance_check_id"
+          },
+          {
+            "artifact_id": "presentation.quality.v1",
+            "collection": "governance_checks",
+            "dimensions": {},
+            "field": "status",
+            "governed_source": "mart_analytics_governance_summary",
+            "metric_id": null,
+            "observed_value": "passed",
+            "period": null,
+            "record_id": "wage.operational_freshness",
+            "record_key": "governance_check_id"
+          }
+        ],
+        "evidence_state": "validated_with_review_context",
+        "executive_question": "How trustworthy and current is this evidence snapshot?",
+        "headline": "People and Wage reconciliation passed with intentional People quality fixtures visible",
+        "insight_id": "insight.platform.evidence_trust.v1",
+        "limitations": [
+          "Freshness and governance states reflect the committed snapshot evaluation time, not live telemetry.",
+          "Reconciliation proves defined pipeline parity; it does not independently validate every source claim."
+        ],
+        "metric_ids": [],
+        "narrative": "All 36/36 People periods and all 4/4 Wage matrices reconciled with maximum difference 0. The 68 People quality records are intentional synthetic fixtures retained for governance demonstration; review_required is not a production transformation failure. People and Wage freshness checks were both passed when the governed snapshot was evaluated, so these states are point-in-time rather than live telemetry.",
+        "next_question_ids": [],
+        "periods": [],
+        "question_id": "question.platform.evidence_trust.v1"
+      },
+      {
+        "comparison": {
+          "absolute_difference": 18856.98,
+          "highest_value": 30940.1225809524,
+          "lowest_value": 12083.1429464139,
+          "method": "published_benchmark_observation_range",
+          "observation_count": 114
+        },
+        "contract_version": 1,
+        "dimensions": {
+          "benchmark_occupations": [
+            "Elementary Occupations",
+            "General Office Clerks"
+          ],
+          "grain": [
+            "benchmark_occupation",
+            "industry",
+            "sex",
+            "reference_year"
+          ]
+        },
+        "display_hint": {
+          "evidence_focus": "lowest_and_highest_source_grain_observations",
+          "visualization": "range_bar"
+        },
+        "domain": "wage",
+        "evidence": [
+          {
+            "artifact_id": "presentation.wage.v1",
+            "collection": "summary",
+            "dimensions": {},
+            "field": "benchmark_observation_count",
+            "governed_source": "mart_wage_benchmark_occupation",
+            "metric_id": null,
+            "observed_value": 114,
+            "period": 2024,
+            "record_id": null,
+            "record_key": null
+          },
+          {
+            "artifact_id": "presentation.wage.v1",
+            "collection": "benchmark_occupations",
+            "dimensions": {
+              "benchmark_occupation": "Elementary Occupations",
+              "industry": "Agriculture, Forestry, and Fishing",
+              "sex": "Male"
+            },
+            "field": "average_monthly_wage_rate",
+            "governed_source": "metrics_wage_published",
+            "metric_id": "wage.benchmark_occupation_wage_rate",
+            "observed_value": 12083.1429464139,
+            "period": 2024,
+            "record_id": "observation_e0371cfc67096de2073f4edf7a4cdcfbd768dc1efa7ed20a898618c1c64ed341",
+            "record_key": "benchmark_wage_mart_id"
+          },
+          {
+            "artifact_id": "presentation.wage.v1",
+            "collection": "benchmark_occupations",
+            "dimensions": {
+              "benchmark_occupation": "General Office Clerks",
+              "industry": "Electricity, Gas, Steam, and Air Conditioning Supply",
+              "sex": "Male"
+            },
+            "field": "average_monthly_wage_rate",
+            "governed_source": "metrics_wage_published",
+            "metric_id": "wage.benchmark_occupation_wage_rate",
+            "observed_value": 30940.1225809524,
+            "period": 2024,
+            "record_id": "observation_db591f74a2a3a17030d20ac20e5c0a017a924b002ce86993fe18848efa2e901e",
+            "record_key": "benchmark_wage_mart_id"
+          }
+        ],
+        "evidence_state": "governed_observation",
+        "executive_question": "What does the available benchmark-occupation evidence show?",
+        "headline": "The 2024 benchmark observations span PHP 12,083 to PHP 30,940",
+        "insight_id": "insight.wage.benchmark_occupation_range.v1",
+        "limitations": [
+          "The source covers only General Office Clerks and Elementary Occupations.",
+          "Each value remains at benchmark occupation, industry, sex, and reference-year grain.",
+          "The range is not a national salary benchmark and does not represent individual compensation."
+        ],
+        "metric_ids": [
+          "wage.benchmark_occupation_wage_rate"
+        ],
+        "narrative": "Across 114 published observations for General Office Clerks and Elementary Occupations, the lowest observed wage rate was PHP 12,083 for Elementary Occupations (Male) in Agriculture, Forestry, and Fishing. The highest was PHP 30,940 for General Office Clerks (Male) in Electricity, Gas, Steam, and Air Conditioning Supply.",
+        "next_question_ids": [
+          "question.wage.industry_wage_range.v1",
+          "question.wage.regional_wage_range.v1",
+          "question.platform.evidence_trust.v1"
+        ],
+        "periods": [
+          2024
+        ],
+        "question_id": "question.wage.benchmark_occupation_range.v1"
+      },
+      {
+        "comparison": {
+          "absolute_difference": 29060.91,
+          "highest_value": 43675.69209404194,
+          "lowest_value": 14614.78510863275,
+          "method": "published_industry_category_range",
+          "multiple": 2.99
+        },
+        "contract_version": 1,
+        "dimensions": {
+          "category_type": "industry",
+          "highest": "Information and Communications",
+          "lowest": "Agriculture, Forestry, and Fishing"
+        },
+        "display_hint": {
+          "evidence_focus": "highest_and_lowest_published_categories",
+          "visualization": "range_bar"
+        },
+        "domain": "wage",
+        "evidence": [
+          {
+            "artifact_id": "presentation.wage.v1",
+            "collection": "industry",
+            "dimensions": {
+              "industry": "Agriculture, Forestry, and Fishing"
+            },
+            "field": "average_monthly_wage_rate",
+            "governed_source": "metrics_wage_published",
+            "metric_id": "wage.wage_rate",
+            "observed_value": 14614.78510863275,
+            "period": 2024,
+            "record_id": "2024|1",
+            "record_key": "industry_wage_mart_id"
+          },
+          {
+            "artifact_id": "presentation.wage.v1",
+            "collection": "industry",
+            "dimensions": {
+              "industry": "Information and Communications"
+            },
+            "field": "average_monthly_wage_rate",
+            "governed_source": "metrics_wage_published",
+            "metric_id": "wage.wage_rate",
+            "observed_value": 43675.69209404194,
+            "period": 2024,
+            "record_id": "2024|10",
+            "record_key": "industry_wage_mart_id"
+          }
+        ],
+        "evidence_state": "governed_observation",
+        "executive_question": "Which reported industries have the highest and lowest observed wage rates?",
+        "headline": "Information and Communications had the highest published industry wage rate",
+        "insight_id": "insight.wage.industry_wage_range.v1",
+        "limitations": [
+          "These are non-additive PSA-published source values and are not summed or averaged across categories.",
+          "The observed range describes this OWS source scope and does not represent individual compensation.",
+          "The ALL INDUSTRIES aggregate is excluded from the detailed-category range."
+        ],
+        "metric_ids": [
+          "wage.wage_rate"
+        ],
+        "narrative": "Among the detailed industry categories published for 2024, the observed average monthly wage rate ranged from PHP 14,615 for Agriculture, Forestry, and Fishing to PHP 43,676 for Information and Communications. The difference was PHP 29,061, and the higher published value was 2.99x the lower value.",
+        "next_question_ids": [
+          "question.wage.regional_wage_range.v1",
+          "question.wage.benchmark_occupation_range.v1",
+          "question.platform.evidence_trust.v1"
+        ],
+        "periods": [
+          2024
+        ],
+        "question_id": "question.wage.industry_wage_range.v1"
+      },
+      {
+        "comparison": {
+          "absolute_difference": 17814.82,
+          "highest_value": 29309.7827154707,
+          "lowest_value": 11494.96229850418,
+          "method": "published_region_category_range",
+          "multiple": 2.55
+        },
+        "contract_version": 1,
+        "dimensions": {
+          "category_type": "region",
+          "highest": "National Capital Region",
+          "lowest": "Bangsamoro Autonomous Region in Muslim Mindanao"
+        },
+        "display_hint": {
+          "evidence_focus": "highest_and_lowest_published_categories",
+          "visualization": "range_bar"
+        },
+        "domain": "wage",
+        "evidence": [
+          {
+            "artifact_id": "presentation.wage.v1",
+            "collection": "regional",
+            "dimensions": {
+              "region": "Bangsamoro Autonomous Region in Muslim Mindanao"
+            },
+            "field": "average_monthly_wage_rate",
+            "governed_source": "metrics_wage_published",
+            "metric_id": "wage.wage_rate",
+            "observed_value": 11494.96229850418,
+            "period": 2024,
+            "record_id": "2024|17",
+            "record_key": "regional_wage_mart_id"
+          },
+          {
+            "artifact_id": "presentation.wage.v1",
+            "collection": "regional",
+            "dimensions": {
+              "region": "National Capital Region"
+            },
+            "field": "average_monthly_wage_rate",
+            "governed_source": "metrics_wage_published",
+            "metric_id": "wage.wage_rate",
+            "observed_value": 29309.7827154707,
+            "period": 2024,
+            "record_id": "2024|1",
+            "record_key": "regional_wage_mart_id"
+          }
+        ],
+        "evidence_state": "governed_observation",
+        "executive_question": "How materially do observed wage rates differ across regions?",
+        "headline": "National Capital Region had the highest published region wage rate",
+        "insight_id": "insight.wage.regional_wage_range.v1",
+        "limitations": [
+          "These are non-additive PSA-published source values and are not summed or averaged across categories.",
+          "The observed range describes this OWS source scope and does not represent individual compensation.",
+          "The ALL INDUSTRIES aggregate is excluded from the detailed-category range."
+        ],
+        "metric_ids": [
+          "wage.wage_rate"
+        ],
+        "narrative": "Among the detailed region categories published for 2024, the observed average monthly wage rate ranged from PHP 11,495 for Bangsamoro Autonomous Region in Muslim Mindanao to PHP 29,310 for National Capital Region. The difference was PHP 17,815, and the higher published value was 2.55x the lower value.",
+        "next_question_ids": [
+          "question.wage.industry_wage_range.v1",
+          "question.wage.benchmark_occupation_range.v1",
+          "question.platform.evidence_trust.v1"
+        ],
+        "periods": [
+          2024
+        ],
+        "question_id": "question.wage.regional_wage_range.v1"
+      }
+    ],
+    "limitations": [
+      "Insights describe governed observations and do not establish causality.",
+      "Decision support means evidence-backed investigation, not automated business decisions.",
+      "People is synthetic; Wage remains within the published PSA 2024 OWS scope and source grain."
+    ],
+    "questions": [
+      {
+        "domain": "people",
+        "executive_question": "When was attrition pressure highest, and where did it stand at the end?",
+        "insight_id": "insight.people.attrition_pressure.v1",
+        "question_id": "question.people.attrition_pressure.v1"
+      },
+      {
+        "domain": "people",
+        "executive_question": "When did hiring least offset separations?",
+        "insight_id": "insight.people.hiring_separation_balance.v1",
+        "question_id": "question.people.hiring_separation_balance.v1"
+      },
+      {
+        "domain": "people",
+        "executive_question": "Is the workforce growing or contracting across the analysis window?",
+        "insight_id": "insight.people.workforce_direction.v1",
+        "question_id": "question.people.workforce_direction.v1"
+      },
+      {
+        "domain": "platform",
+        "executive_question": "How trustworthy and current is this evidence snapshot?",
+        "insight_id": "insight.platform.evidence_trust.v1",
+        "question_id": "question.platform.evidence_trust.v1"
+      },
+      {
+        "domain": "wage",
+        "executive_question": "What does the available benchmark-occupation evidence show?",
+        "insight_id": "insight.wage.benchmark_occupation_range.v1",
+        "question_id": "question.wage.benchmark_occupation_range.v1"
+      },
+      {
+        "domain": "wage",
+        "executive_question": "Which reported industries have the highest and lowest observed wage rates?",
+        "insight_id": "insight.wage.industry_wage_range.v1",
+        "question_id": "question.wage.industry_wage_range.v1"
+      },
+      {
+        "domain": "wage",
+        "executive_question": "How materially do observed wage rates differ across regions?",
+        "insight_id": "insight.wage.regional_wage_range.v1",
+        "question_id": "question.wage.regional_wage_range.v1"
+      }
+    ],
+    "source_artifact_ids": [
+      "presentation.people.v1",
+      "presentation.quality.v1",
+      "presentation.wage.v1"
+    ]
+  }
+}

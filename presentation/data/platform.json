@@ -5,6 +5,7 @@
   "contract_version": 1,
   "data": {
     "artifact_inventory": [
+      "presentation.insights.v1",
       "presentation.lineage.v1",
       "presentation.people.v1",
       "presentation.platform.v1",
@@ -22,6 +23,10 @@
       },
       {
         "id": "presentation_contract",
+        "status": "active"
+      },
+      {
+        "id": "executive_insight_engine",
         "status": "active"
       },
       {

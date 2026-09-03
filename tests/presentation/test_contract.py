@@ -160,6 +160,7 @@ def test_platform_lineage_distinguishes_active_planned_and_optional_paths() -> N
         item["id"]: item["status"] for item in platform["capabilities"]
     }
     assert capability_status["warehouse_analytics"] == "active"
+    assert capability_status["executive_insight_engine"] == "active"
     assert capability_status["nextjs_frontend"] == "planned"
     assert capability_status["vector_ready_contract"] == "optional_boundary"
     assert capability_status["embedding_generation"] == "deferred_optional"
@@ -168,6 +169,16 @@ def test_platform_lineage_distinguishes_active_planned_and_optional_paths() -> N
         edge["status"] for edge in lineage["architecture"]["edges"]
     }
     assert edge_statuses == {"active", "planned", "deferred_optional"}
+    assert {
+        "from": "presentation_contract",
+        "status": "active",
+        "to": "insight_engine",
+    } in lineage["architecture"]["edges"]
+    assert {
+        "from": "insight_engine",
+        "status": "planned",
+        "to": "nextjs",
+    } in lineage["architecture"]["edges"]
 
 
 def test_artifacts_are_frontend_safe_and_do_not_create_cross_domain_data() -> None:

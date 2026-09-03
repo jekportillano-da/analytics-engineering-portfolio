@@ -1,0 +1,80 @@
+contract_version: 1
+contract_id: analytics-portfolio-executive-insights-v1
+presentation_contract_id: analytics-portfolio-presentation-v1
+
+purpose: >-
+  Deterministic executive observations derived only from governed presentation
+  artifacts. Insights describe observed patterns, preserve source limitations,
+  and never assert unsupported causality or automated business decisions.
+
+artifact:
+  filename: insights.json
+  artifact_id: presentation.insights.v1
+  required_data_fields:
+    - insight_contract_id
+    - insight_contract_version
+    - generation_mode
+    - source_artifact_ids
+    - questions
+    - insights
+    - limitations
+
+question:
+  required_fields:
+    - question_id
+    - domain
+    - executive_question
+    - insight_id
+
+insight:
+  required_fields:
+    - insight_id
+    - contract_version
+    - domain
+    - question_id
+    - executive_question
+    - headline
+    - narrative
+    - evidence_state
+    - evidence
+    - metric_ids
+    - periods
+    - dimensions
+    - comparison
+    - limitations
+    - next_question_ids
+    - display_hint
+  allowed_domains:
+    - people
+    - wage
+    - platform
+  allowed_evidence_states:
+    - governed_observation
+    - validated_with_review_context
+
+evidence_reference:
+  required_fields:
+    - artifact_id
+    - collection
+    - record_key
+    - record_id
+    - field
+    - observed_value
+    - metric_id
+    - governed_source
+    - period
+    - dimensions
+  resolution: >-
+    collection is a dot-delimited path inside artifact data. A list collection
+    is resolved by record_key and record_id; a mapping collection uses null for
+    both. observed_value must equal the resolved field value.
+
+semantics:
+  deterministic: true
+  offline: true
+  frontend_safe: true
+  causal_inference: false
+  automated_decisions: false
+  frontend_metric_recalculation: false
+  cross_domain_people_wage_comparisons: false
+  wage_source_values_additive: false

@@ -60,11 +60,23 @@ Governed outputs now feed a versioned presentation contract before any planned
 frontend consumption:
 
 ```text
-Governed Data Products -> Presentation Contract -> Next.js -> Vercel
-       active                    active             planned    planned
+Governed Data Products
+  -> Presentation Contract
+  -> Executive Insight Engine
+  -> Executive Reporting Frontend
+  -> Decision Support / Investigation
+       active          active              active               planned
 ```
 
 The presentation generator copies already-calculated metrics, quality states,
-reconciliation, and compact provenance into deterministic JSON. It does not move
-analytical formulas into frontend code. Next.js and Vercel are integration targets,
-not deployed components. See `docs/frontend-handoff.md` for the V1 consumer rules.
+reconciliation, and compact provenance into deterministic JSON. The executive
+insight engine then derives a small set of deterministic observations, comparison
+arithmetic, evidence references, limitations, and related questions solely from
+those presentation artifacts. It does not query the warehouse, claim causality,
+forecast, recommend actions, or move analytical formulas into frontend code.
+
+Decision support means surfacing evidence-backed observations and questions for
+human investigation; it does not mean automated business decisions. Next.js and
+Vercel remain planned integration targets, not deployed components. See
+`docs/frontend-handoff.md` for the V1 consumer rules and
+`contracts/insights/v1/executive_insights.yml` for the insight contract.
