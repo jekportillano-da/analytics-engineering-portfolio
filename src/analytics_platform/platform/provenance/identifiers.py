@@ -59,6 +59,20 @@ def _validate_type_prefixed_sha256(value: str, prefix: str, field_name: str) -> 
     return value
 
 
+def validate_artifact_id(value: str) -> str:
+    """Return a canonical artifact identifier or raise."""
+
+    return _validate_type_prefixed_sha256(value, "artifact", "artifact_id")
+
+
+def validate_extraction_batch_id(value: str) -> str:
+    """Return a canonical extraction-batch identifier or raise."""
+
+    return _validate_type_prefixed_sha256(
+        value, "extraction", "extraction_batch_id"
+    )
+
+
 def _encode_component(value: str) -> bytes:
     encoded = value.encode("utf-8", errors="strict")
     if len(encoded) > 0xFFFFFFFF:
@@ -362,4 +376,35 @@ def raw_record_id_v2(extraction_batch_id: str, source_record_locator: str) -> st
         source_record_locator,
         namespace=PORTFOLIO_IDENTIFIER_NAMESPACE,
         version=PORTFOLIO_IDENTIFIER_VERSION,
+    )
+
+
+def vector_document_id_v1(
+    domain: str,
+    document_type: str,
+    source_id: str,
+    source_record_id: str,
+) -> str:
+    """Derive a stable identity for one logical vector-ready document."""
+
+    validate_source_id(domain)
+    validate_source_id(document_type)
+    validate_source_id(source_id)
+    if (
+        not isinstance(source_record_id, str)
+        or source_record_id == ""
+        or source_record_id.strip() != source_record_id
+    ):
+        raise IdentifierError("source_record_id must be canonical nonempty text")
+    return _deterministic_id(
+        "document",
+        "vector_ready_document",
+        (
+            ("domain", domain),
+            ("document_type", document_type),
+            ("source_id", source_id),
+            ("source_record_id", source_record_id),
+        ),
+        namespace=PORTFOLIO_IDENTIFIER_NAMESPACE,
+        version="vector-ready-document-identity-v1",
     )

@@ -1,0 +1,43 @@
+contract_version: 1
+contract_id: analytics-portfolio-vector-ready-document-v1
+status: inactive_extension_boundary
+
+identity:
+  strategy: deterministic_logical_identity
+  inputs:
+    - domain
+    - document_type
+    - lineage.source_id
+    - lineage.source_record_id
+  content_addressed: false
+  rationale: Stable logical identity permits a changed governed document to replace its prior representation.
+
+fields:
+  - contract_version
+  - document_id
+  - domain
+  - document_type
+  - content
+  - metadata
+  - lineage
+  - reference_context
+
+metadata_contract:
+  key_format: lowercase_filter_safe_identifier
+  value_types: [string, integer, number, boolean, "null"]
+  nested_values_allowed: false
+
+lineage_contract:
+  required: [source_id, source_locator, source_record_id]
+  optional:
+    - source_contract_id
+    - source_relation
+    - source_artifact_id
+    - retrieval_id
+    - extraction_id
+    - identifier_version
+
+serving:
+  embedding_active: false
+  vector_store_active: false
+  vendor: null
