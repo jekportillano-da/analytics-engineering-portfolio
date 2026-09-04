@@ -1,5 +1,7 @@
-import { PanelShell } from "@/components/shell/panel-shell";
+import { InsightPanel } from "@/components/journey/insight-panel";
+import { loadInsightData } from "@/lib/presentation/contract-loader";
 
-export default function InsightPage() {
-  return <PanelShell stageId="insight" />;
+export default async function InsightPage() {
+  const { people, wage } = await loadInsightData();
+  return <InsightPanel people={people} wage={wage} />;
 }

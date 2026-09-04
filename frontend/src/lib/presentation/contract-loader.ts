@@ -39,6 +39,12 @@ export type GovernedHealthSnapshot = {
   wage_reconciliation: { summary: { maximum_difference: number; matrix_count: number; reconciled_matrix_count: number; mart_observation_count: number } };
 };
 
+export type MetricDefinition = { metric_id: string; definition: string; aggregation_behavior: string; limitations: string; time_grain?: string };
+export type PeopleMonthlyRecord = { period_start: string; period_end: string; ending_headcount: number; hires: number; separations: number; attrition_rate: number };
+export type PeopleInsightData = { definitions: MetricDefinition[]; monthly: PeopleMonthlyRecord[] };
+export type WageCategoryRecord = { reference_year: number; industry_name?: string; region_name?: string; benchmark_occupation_name?: string; sex?: string; average_monthly_basic_pay?: number; average_monthly_allowance?: number; average_monthly_wage_rate: number };
+export type WageInsightData = { definitions: MetricDefinition[]; industry: WageCategoryRecord[]; regional: WageCategoryRecord[]; benchmark_occupations: WageCategoryRecord[] };
+
 function assertEnvelope(value: unknown, artifactType: ArtifactType, filePath: string): PresentationArtifactMetadata {
   if (typeof value !== "object" || value === null || Array.isArray(value)) {
     throw new Error(`Presentation contract error in ${filePath}: expected an object envelope.`);
@@ -101,4 +107,22 @@ export async function loadGovernedHealthSnapshot(): Promise<GovernedHealthSnapsh
     throw new Error(`Presentation contract error in ${filePath}: invalid governed health payload.`);
   }
   return data as unknown as GovernedHealthSnapshot;
+}
+
+async function loadArtifactData(artifactType: "people" | "wage") {
+  const filePath = path.resolve(process.cwd(), "..", "presentation", "data", `${artifactType}.json`);
+  const artifact = JSON.parse(await readFile(filePath, "utf8")) as Record<string, unknown>;
+  assertEnvelope(artifact, artifactType, filePath);
+  return { data: artifact.data as Record<string, unknown>, filePath };
+}
+
+export async function loadInsightData(): Promise<{ people: PeopleInsightData; wage: WageInsightData }> {
+  const [{ data: people, filePath: peoplePath }, { data: wage, filePath: wagePath }] = await Promise.all([loadArtifactData("people"), loadArtifactData("wage")]);
+  const validDefinitions = (value: unknown) => Array.isArray(value) && value.every((item) => typeof item === "object" && item !== null && typeof (item as Record<string, unknown>).metric_id === "string");
+  const validPeopleRows = Array.isArray(people.monthly) && people.monthly.every((item) => typeof item === "object" && item !== null && ["period_start", "period_end", "ending_headcount", "hires", "separations", "attrition_rate"].every((key) => key in item));
+  const validWageRows = (value: unknown) => Array.isArray(value) && value.every((item) => typeof item === "object" && item !== null && typeof (item as Record<string, unknown>).average_monthly_wage_rate === "number");
+  if (!validDefinitions(people.definitions) || !validPeopleRows || !validDefinitions(wage.definitions) || !validWageRows(wage.industry) || !validWageRows(wage.regional) || !validWageRows(wage.benchmark_occupations)) {
+    throw new Error(`Presentation contract error: incompatible INSIGHT data in ${peoplePath} or ${wagePath}.`);
+  }
+  return { people: people as unknown as PeopleInsightData, wage: wage as unknown as WageInsightData };
 }
