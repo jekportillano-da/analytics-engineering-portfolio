@@ -259,3 +259,43 @@ a { color: inherit; }
 .insight-links a { color: var(--text-secondary); font-size: 14px; text-decoration: none; }
 .insight-links a:hover, .insight-links a:focus-visible { color: var(--accent); text-decoration: underline; }
 @media (max-width: 768px) { .workspace-heading { align-items: flex-start; flex-direction: column; } .workspace-tabs { justify-content: flex-start; } .chart-frame { height: 320px; } .wage-chart-viewport { height: 560px; overflow-x: auto; } .wage-controls { flex-direction: column; } .insight-links { flex-direction: column; gap: 12px; } }
+
+.present-panel { padding-top: 88px; }
+.present-panel .journey-lede { font-size: 28px; }
+.briefing-tabs { display: flex; gap: 8px; margin-top: 46px; }
+.briefing-tabs button { background: transparent; border: 1px solid var(--border-primary); color: var(--text-secondary); cursor: pointer; font: inherit; font-size: 14px; padding: 9px 16px; }
+.briefing-tabs button[aria-selected="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--text-primary); font-weight: 600; }
+.briefing-tabs button:focus-visible, .briefing-questions button:focus-visible, .next-questions button:focus-visible, .briefing-actions a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.briefing-layout { border-top: 1px solid var(--border-primary); display: grid; gap: 60px; grid-template-columns: 250px minmax(0, 1fr); margin-top: 28px; padding-top: 36px; }
+.briefing-questions { display: flex; flex-direction: column; gap: 5px; }
+.briefing-questions button { background: transparent; border: 0; border-left: 2px solid transparent; color: var(--text-muted); cursor: pointer; font: inherit; font-size: 13px; line-height: 1.5; padding: 12px 14px; text-align: left; }
+.briefing-questions button[aria-current="true"] { border-left-color: var(--accent); color: var(--text-primary); font-weight: 600; }
+.executive-finding { animation: panel-in 210ms ease-out; max-width: 920px; }
+.executive-finding h2 { color: var(--text-secondary); font-size: 18px; font-weight: 500; line-height: 1.5; margin: 15px 0 0; max-width: 700px; }
+.finding-headline { color: var(--text-primary); font-size: clamp(36px, 4vw, 48px); font-weight: 550; letter-spacing: 0; line-height: 1.14; margin: 30px 0 0; max-width: 920px; }
+.finding-evidence { align-items: baseline; border-bottom: 1px solid var(--border-subtle); border-top: 1px solid var(--border-subtle); display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; padding: 16px 0; }
+.finding-evidence p, .knowledge-split p, .next-questions > p { color: var(--text-muted); font-family: var(--font-geist-mono), monospace; font-size: 10px; letter-spacing: .06em; margin: 0; }
+.finding-evidence span { color: var(--accent); font-family: var(--font-geist-mono), monospace; font-size: 18px; }
+.finding-evidence small { color: var(--text-secondary); font-family: var(--font-geist-mono), monospace; font-size: 10px; margin-left: auto; text-transform: uppercase; }
+.finding-narrative { color: var(--text-secondary); font-size: 18px; line-height: 1.65; margin: 30px 0 0; max-width: 790px; }
+.knowledge-split { display: grid; gap: 34px; grid-template-columns: 1fr 1fr; margin-top: 48px; }
+.knowledge-split > div { border-top: 1px solid var(--border-primary); padding-top: 15px; }
+.knowledge-split span, .knowledge-split li { color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
+.knowledge-split span { display: block; margin-top: 10px; }
+.knowledge-split ul { margin: 10px 0 0; padding-left: 18px; }
+.knowledge-split li + li { margin-top: 8px; }
+.next-questions { border-top: 1px solid var(--border-primary); margin-top: 48px; padding-top: 15px; }
+.next-questions button { background: transparent; border: 0; border-bottom: 1px solid var(--border-subtle); color: var(--text-primary); cursor: pointer; display: block; font: inherit; font-size: 15px; line-height: 1.5; padding: 13px 0; text-align: left; width: 100%; }
+.next-questions button span { color: var(--accent); float: right; }
+.next-questions > span { color: var(--text-muted); display: block; font-size: 14px; margin-top: 12px; }
+.briefing-actions { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 34px; }
+.briefing-actions a, .trace-insight { background: transparent; border: 0; color: var(--text-secondary); cursor: pointer; font: inherit; font-size: 13px; padding: 0; text-decoration: none; }
+.briefing-actions a:hover, .trace-insight:hover { color: var(--accent); text-decoration: underline; }
+.trace-insight { color: var(--accent); font-weight: 600; }
+.evidence-list { margin-top: 32px; }
+.evidence-list article { border-top: 1px solid var(--border-primary); padding: 16px 0; }
+.evidence-list p, .evidence-list small { color: var(--text-muted); font-family: var(--font-geist-mono), monospace; font-size: 10px; line-height: 1.5; margin: 0; }
+.evidence-list strong { color: var(--text-primary); display: block; font-size: 16px; margin-top: 8px; }
+.evidence-list span { color: var(--text-secondary); display: block; font-family: var(--font-geist-mono), monospace; font-size: 11px; margin: 7px 0; }
+.present-payoff { margin-top: 88px; }
+@media (max-width: 768px) { .present-panel { padding-top: 56px; } .briefing-layout, .knowledge-split { gap: 28px; grid-template-columns: 1fr; } .briefing-questions { flex-direction: row; overflow-x: auto; } .briefing-questions button { flex: 0 0 230px; } .finding-evidence small { margin-left: 0; } }

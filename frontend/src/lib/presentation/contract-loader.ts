@@ -44,6 +44,8 @@ export type PeopleMonthlyRecord = { period_start: string; period_end: string; en
 export type PeopleInsightData = { definitions: MetricDefinition[]; monthly: PeopleMonthlyRecord[] };
 export type WageCategoryRecord = { reference_year: number; industry_name?: string; region_name?: string; benchmark_occupation_name?: string; sex?: string; average_monthly_basic_pay?: number; average_monthly_allowance?: number; average_monthly_wage_rate: number };
 export type WageInsightData = { definitions: MetricDefinition[]; industry: WageCategoryRecord[]; regional: WageCategoryRecord[]; benchmark_occupations: WageCategoryRecord[] };
+export type ExecutiveEvidence = { artifact_id: string; collection: string; record_key: string | null; record_id: string | null; field: string; observed_value: string | number; metric_id: string | null; governed_source: string; period: string | number | null; dimensions: Record<string, string> };
+export type ExecutiveInsight = { insight_id: string; domain: "people" | "wage" | "platform"; question_id: string; executive_question: string; headline: string; narrative: string; evidence_state: string; evidence: ExecutiveEvidence[]; metric_ids: string[]; limitations: string[]; next_question_ids: string[] };
 
 function assertEnvelope(value: unknown, artifactType: ArtifactType, filePath: string): PresentationArtifactMetadata {
   if (typeof value !== "object" || value === null || Array.isArray(value)) {
@@ -125,4 +127,33 @@ export async function loadInsightData(): Promise<{ people: PeopleInsightData; wa
     throw new Error(`Presentation contract error: incompatible INSIGHT data in ${peoplePath} or ${wagePath}.`);
   }
   return { people: people as unknown as PeopleInsightData, wage: wage as unknown as WageInsightData };
+}
+
+function resolveCollection(data: Record<string, unknown>, collection: string) {
+  return collection.split(".").reduce<unknown>((current, key) => typeof current === "object" && current !== null ? (current as Record<string, unknown>)[key] : undefined, data);
+}
+
+export async function loadExecutiveBriefing(): Promise<ExecutiveInsight[]> {
+  const directory = path.resolve(process.cwd(), "..", "presentation", "data");
+  const rawArtifacts = await Promise.all(ARTIFACT_TYPES.map(async (type) => {
+    const filePath = path.join(directory, `${type}.json`);
+    const artifact = JSON.parse(await readFile(filePath, "utf8")) as Record<string, unknown>;
+    assertEnvelope(artifact, type, filePath);
+    return [type, artifact.data as Record<string, unknown>] as const;
+  }));
+  const artifacts = Object.fromEntries(rawArtifacts) as Record<ArtifactType, Record<string, unknown>>;
+  const insightData = artifacts.insights;
+  if (insightData.insight_contract_id !== "analytics-portfolio-executive-insights-v1" || insightData.insight_contract_version !== 1 || !Array.isArray(insightData.insights)) throw new Error("Presentation contract error: incompatible Executive Insight Contract.");
+  const insights = insightData.insights as ExecutiveInsight[];
+  const questionIds = new Set(insights.map((insight) => insight.question_id));
+  for (const insight of insights) {
+    if (!["people", "wage", "platform"].includes(insight.domain) || !insight.insight_id || !insight.question_id || !insight.headline || !insight.narrative || !Array.isArray(insight.evidence) || !Array.isArray(insight.limitations) || !Array.isArray(insight.next_question_ids) || !insight.next_question_ids.every((id) => questionIds.has(id))) throw new Error(`Presentation contract error: invalid executive insight ${insight.insight_id}.`);
+    for (const evidence of insight.evidence) {
+      const artifactType = evidence.artifact_id.replace("presentation.", "").replace(".v1", "") as ArtifactType;
+      const collection = artifacts[artifactType] && resolveCollection(artifacts[artifactType], evidence.collection);
+      const record = Array.isArray(collection) && evidence.record_key ? collection.find((item) => typeof item === "object" && item !== null && (item as Record<string, unknown>)[evidence.record_key!] === evidence.record_id) : collection;
+      if (typeof record !== "object" || record === null || (record as Record<string, unknown>)[evidence.field] !== evidence.observed_value) throw new Error(`Presentation contract error: unresolved evidence for ${insight.insight_id}.`);
+    }
+  }
+  return insights;
 }

@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Analytics Engineering Platform",
+  title: "THREADLINE | Analytics Engineering Platform",
   description: "A governed analytics engineering platform.",
 };
 
