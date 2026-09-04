@@ -1,5 +1,5 @@
-import { PanelShell } from "@/components/shell/panel-shell";
+import { IngestPanel } from "@/components/journey/ingest-panel";
 
 export default function IngestPage() {
-  return <PanelShell stageId="ingest" />;
+  return <IngestPanel />;
 }

@@ -1,5 +1,5 @@
-import { PanelShell } from "@/components/shell/panel-shell";
+import { SourcePanel } from "@/components/journey/source-panel";
 
 export default function SourcePage() {
-  return <PanelShell stageId="source" />;
+  return <SourcePanel />;
 }
