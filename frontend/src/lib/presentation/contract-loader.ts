@@ -18,6 +18,27 @@ export type PresentationArtifactMetadata = {
 
 export type PresentationContract = Readonly<Record<ArtifactType, PresentationArtifactMetadata>>;
 
+export type GovernanceCheck = {
+  check_type: string;
+  detail: string;
+  domain: string;
+  evaluated_at: string;
+  expected_value: string;
+  governance_check_id: string;
+  latest_operational_at: string | null;
+  observed_value: string;
+  status: string;
+};
+
+export type GovernedHealthSnapshot = {
+  freshness_contracts: Record<string, { error_after_hours: number; operational_timestamp: string; reference_period: string; warn_after_hours: number }>;
+  governance_checks: GovernanceCheck[];
+  health_semantics: string;
+  people_quality: { issue_count: number; by_type: { issue_count: number; severity: string }[] };
+  people_reconciliation: { summary: { maximum_difference: number; period_count: number; reconciled_period_count: number } };
+  wage_reconciliation: { summary: { maximum_difference: number; matrix_count: number; reconciled_matrix_count: number; mart_observation_count: number } };
+};
+
 function assertEnvelope(value: unknown, artifactType: ArtifactType, filePath: string): PresentationArtifactMetadata {
   if (typeof value !== "object" || value === null || Array.isArray(value)) {
     throw new Error(`Presentation contract error in ${filePath}: expected an object envelope.`);
@@ -68,4 +89,16 @@ export async function loadPresentationContract(): Promise<PresentationContract> 
   );
 
   return Object.fromEntries(entries) as PresentationContract;
+}
+
+export async function loadGovernedHealthSnapshot(): Promise<GovernedHealthSnapshot> {
+  const filePath = path.resolve(process.cwd(), "..", "presentation", "data", "quality.json");
+  const artifact = JSON.parse(await readFile(filePath, "utf8")) as Record<string, unknown>;
+  assertEnvelope(artifact, "quality", filePath);
+  const data = artifact.data as Record<string, unknown>;
+  const required = ["freshness_contracts", "governance_checks", "health_semantics", "people_quality", "people_reconciliation", "wage_reconciliation"];
+  if (!required.every((key) => key in data) || !Array.isArray(data.governance_checks)) {
+    throw new Error(`Presentation contract error in ${filePath}: invalid governed health payload.`);
+  }
+  return data as unknown as GovernedHealthSnapshot;
 }

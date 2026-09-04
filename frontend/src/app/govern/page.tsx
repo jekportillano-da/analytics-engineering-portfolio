@@ -1,5 +1,5 @@
-import { PanelShell } from "@/components/shell/panel-shell";
+import { GovernPanel } from "@/components/journey/govern-panel";
 
-export default function GovernPage() {
-  return <PanelShell stageId="govern" />;
+export default async function GovernPage() {
+  return <GovernPanel />;
 }
