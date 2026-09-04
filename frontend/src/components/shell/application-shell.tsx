@@ -8,7 +8,10 @@ export function ApplicationShell({ children }: { children: React.ReactNode }) {
     <div className="application-shell">
       <header className="application-header">
         <div className="header-inner">
-          <p className="product-identity">ANALYTICS ENGINEERING PLATFORM</p>
+          <div className="product-identity">
+            <p className="product-name">THREADLINE</p>
+            <p className="product-subtitle">Analytics Engineering Platform</p>
+          </div>
           <LifecycleRail pathname={usePathname()} />
         </div>
       </header>
