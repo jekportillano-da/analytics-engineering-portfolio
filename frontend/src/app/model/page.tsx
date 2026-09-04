@@ -1,5 +1,5 @@
-import { PanelShell } from "@/components/shell/panel-shell";
+import { ModelPanel } from "@/components/journey/model-panel";
 
 export default function ModelPage() {
-  return <PanelShell stageId="model" />;
+  return <ModelPanel />;
 }
