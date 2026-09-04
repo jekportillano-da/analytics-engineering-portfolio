@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "THREADLINE | Analytics Engineering Platform",
-  description: "A governed analytics engineering platform.",
+  description: "An end-to-end analytics engineering platform that transforms governed source data into traceable analytical and executive reporting.",
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
