@@ -1,6 +1,6 @@
 contract_version: 1
 contract_id: analytics-portfolio-presentation-v1
-consumer: planned Next.js frontend
+consumer: THREADLINE Next.js frontend
 
 artifacts:
   - insights.json

@@ -31,11 +31,11 @@
       },
       {
         "id": "nextjs_frontend",
-        "status": "planned"
+        "status": "active"
       },
       {
         "id": "vercel_deployment",
-        "status": "planned"
+        "status": "active"
       },
       {
         "id": "vector_ready_contract",

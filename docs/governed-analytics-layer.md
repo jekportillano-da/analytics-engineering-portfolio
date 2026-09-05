@@ -6,7 +6,7 @@ V1 uses executable relational metric contracts, not the dbt Semantic Layer. The
 installed dbt Core stack includes semantic-interface and MetricFlow libraries as
 internal dependencies, but exposes no supported MetricFlow query CLI or semantic
 service. Adding another runtime solely for branding would increase compatibility
-risk without improving this checkpoint.
+risk without improving the platform.
 
 The machine-readable contract is
 `contracts/metrics/v1/governed_metrics.yml`. dbt builds its governed query
@@ -34,7 +34,7 @@ Run the operational checks with:
 dbt source freshness --project-dir dbt --profiles-dir dbt --target bigquery
 ```
 
-No recurring schedule is configured in this checkpoint.
+No recurring schedule is currently configured.
 
 ## Quality and catalog
 
@@ -56,16 +56,16 @@ relationship tests, grains, and People/Wage ownership metadata.
 
 ## Presentation boundary
 
-Governed outputs now feed a versioned presentation contract before any planned
-frontend consumption:
+Governed outputs feed a versioned presentation contract before frontend
+consumption:
 
 ```text
 Governed Data Products
   -> Presentation Contract
   -> Executive Insight Engine
-  -> Executive Reporting Frontend
+  -> THREADLINE Executive Reporting Frontend
   -> Decision Support / Investigation
-       active          active              active               planned
+       active          active              active               active
 ```
 
 The presentation generator copies already-calculated metrics, quality states,
@@ -76,7 +76,8 @@ those presentation artifacts. It does not query the warehouse, claim causality,
 forecast, recommend actions, or move analytical formulas into frontend code.
 
 Decision support means surfacing evidence-backed observations and questions for
-human investigation; it does not mean automated business decisions. Next.js and
-Vercel remain planned integration targets, not deployed components. See
-`docs/frontend-handoff.md` for the V1 consumer rules and
-`contracts/insights/v1/executive_insights.yml` for the insight contract.
+human investigation; it does not mean automated business decisions. The THREADLINE
+Next.js presentation application is deployed on Vercel as the public consumption
+layer of the governed platform. See `docs/presentation-layer.md` for the V1
+consumer rules and `contracts/insights/v1/executive_insights.yml` for the insight
+contract.

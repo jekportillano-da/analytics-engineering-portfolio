@@ -109,8 +109,8 @@ def _architecture() -> dict[str, object]:
         {"id": "governed_products", "label": "Governed data products", "status": "active"},
         {"id": "presentation_contract", "label": "Presentation contract", "status": "active"},
         {"id": "insight_engine", "label": "Executive insight engine", "status": "active"},
-        {"id": "nextjs", "label": "Next.js frontend", "status": "planned"},
-        {"id": "vercel", "label": "Vercel deployment", "status": "planned"},
+        {"id": "nextjs", "label": "THREADLINE Next.js frontend", "status": "active"},
+        {"id": "vercel", "label": "Vercel deployment", "status": "active"},
         {"id": "vector_ready", "label": "Vector-ready contract", "status": "optional_boundary"},
         {"id": "embedding", "label": "Embedding provider", "status": "deferred_optional"},
         {"id": "vector_store", "label": "Vector store", "status": "deferred_optional"},
@@ -123,8 +123,6 @@ def _architecture() -> dict[str, object]:
         ("dbt", "governed_products"),
         ("governed_products", "presentation_contract"),
         ("presentation_contract", "insight_engine"),
-    ]
-    planned_edges = [
         ("insight_engine", "nextjs"),
         ("nextjs", "vercel"),
     ]
@@ -137,9 +135,6 @@ def _architecture() -> dict[str, object]:
     edges = [
         {"from": source, "status": "active", "to": target}
         for source, target in active_edges
-    ] + [
-        {"from": source, "status": "planned", "to": target}
-        for source, target in planned_edges
     ] + [
         {"from": source, "status": "deferred_optional", "to": target}
         for source, target in optional_edges
@@ -177,8 +172,8 @@ def build_presentation_artifacts(
         {"id": "dagster_orchestration", "status": "active"},
         {"id": "presentation_contract", "status": "active"},
         {"id": "executive_insight_engine", "status": "active"},
-        {"id": "nextjs_frontend", "status": "planned"},
-        {"id": "vercel_deployment", "status": "planned"},
+        {"id": "nextjs_frontend", "status": "active"},
+        {"id": "vercel_deployment", "status": "active"},
         {"id": "vector_ready_contract", "status": "optional_boundary"},
         {"id": "embedding_generation", "status": "deferred_optional"},
         {"id": "vector_database", "status": "deferred_optional"},

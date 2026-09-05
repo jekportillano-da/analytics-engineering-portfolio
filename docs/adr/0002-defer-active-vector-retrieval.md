@@ -24,7 +24,7 @@ database, RAG system, or agent.
 - SQL is more deterministic and auditable for exact analytical metrics.
 - Another managed service would add dependency, security, and operating surface.
 - Recurring infrastructure and embedding API cost is not currently justified.
-- Adding technology only to broaden a portfolio is not sufficient business value.
+- Adding technology without a demonstrated analytical requirement is not sufficient business value.
 
 ## Why readiness is preserved
 
@@ -61,6 +61,6 @@ same protocol.
 ## Consequences
 
 The repository contains no embeddings, model integration, vector index, vector
-credentials, retrieval consumer, active Dagster asset, or vendor dependency. An
-activation checkpoint must choose and evaluate concrete adapters rather than
+credentials, retrieval consumer, active Dagster asset, or vendor dependency. Any
+future activation decision must choose and evaluate concrete adapters rather than
 treating this boundary as an operational capability.

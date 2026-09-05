@@ -144,7 +144,7 @@ def test_wage_artifact_preserves_source_grain_and_nonadditive_semantics() -> Non
     }
 
 
-def test_platform_lineage_distinguishes_active_planned_and_optional_paths() -> None:
+def test_platform_lineage_distinguishes_active_and_optional_paths() -> None:
     artifacts = _artifacts()
     platform = artifacts["platform"]["data"]
     lineage = artifacts["lineage"]["data"]
@@ -161,23 +161,33 @@ def test_platform_lineage_distinguishes_active_planned_and_optional_paths() -> N
     }
     assert capability_status["warehouse_analytics"] == "active"
     assert capability_status["executive_insight_engine"] == "active"
-    assert capability_status["nextjs_frontend"] == "planned"
+    assert capability_status["nextjs_frontend"] == "active"
+    assert capability_status["vercel_deployment"] == "active"
     assert capability_status["vector_ready_contract"] == "optional_boundary"
     assert capability_status["embedding_generation"] == "deferred_optional"
     assert capability_status["vector_database"] == "deferred_optional"
+
     edge_statuses = {
         edge["status"] for edge in lineage["architecture"]["edges"]
     }
-    assert edge_statuses == {"active", "planned", "deferred_optional"}
+    assert edge_statuses == {"active", "deferred_optional"}
+
     assert {
         "from": "presentation_contract",
         "status": "active",
         "to": "insight_engine",
     } in lineage["architecture"]["edges"]
+
     assert {
         "from": "insight_engine",
-        "status": "planned",
+        "status": "active",
         "to": "nextjs",
+    } in lineage["architecture"]["edges"]
+
+    assert {
+        "from": "nextjs",
+        "status": "active",
+        "to": "vercel",
     } in lineage["architecture"]["edges"]
 
 

@@ -1,8 +1,8 @@
-# Frontend handoff: presentation contract V1
+# Presentation Layer Architecture
 
 ## Stable integration boundary
 
-The planned Next.js application must read the six committed JSON files under
+The THREADLINE Next.js application reads the six committed JSON files under
 `presentation/data/`. Their envelope is defined by
 `contracts/presentation/v1/presentation.yml` and identified as
 `analytics-portfolio-presentation-v1`.
@@ -104,7 +104,7 @@ The active analytical flow is:
 Governed Data Products
   -> Presentation Contract
   -> Executive Insight Engine
-  -> planned Executive Reporting Frontend
+  -> THREADLINE Executive Reporting Frontend
   -> evidence-led Decision Support / Investigation
 ```
 
@@ -115,12 +115,14 @@ decision maker. "Decision support" means giving an executive a traceable finding
 and a structured next question. Business decisions and causal investigation
 remain human responsibilities.
 
-## Active, planned, and deferred capabilities
+## Active and deferred capabilities
 
 The warehouse/dbt/governed-product/presentation-contract/insight-engine path is
-active. Next.js and Vercel are planned presentation targets and are not deployed.
-The vector-ready contract is an optional boundary; embeddings, vector storage,
-RAG, and agent consumers remain deferred and are not available to the frontend.
+active. The THREADLINE Next.js presentation application is implemented and
+deployed on Vercel as the public consumption layer of the governed platform.
+The vector-ready contract remains an optional boundary; embeddings, vector
+storage, RAG, and agent consumers remain deferred and are not active components
+of the frontend.
 
 ## Public CI boundary
 

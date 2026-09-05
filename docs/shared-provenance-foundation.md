@@ -1,8 +1,9 @@
 # Shared provenance foundation
 
-This checkpoint establishes a source-neutral boundary below domain ingestion. It
-does not connect the People adapter to the shared code and does not migrate a Wage
-source.
+The shared provenance foundation establishes a source-neutral boundary below
+domain ingestion. It defines reusable provenance, identity, storage, reconciliation,
+and transport contracts without forcing domain adapters into a shared persistence
+model.
 
 The shared platform owns:
 

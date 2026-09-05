@@ -38,12 +38,12 @@
         },
         {
           "from": "insight_engine",
-          "status": "planned",
+          "status": "active",
           "to": "nextjs"
         },
         {
           "from": "nextjs",
-          "status": "planned",
+          "status": "active",
           "to": "vercel"
         },
         {
@@ -105,13 +105,13 @@
         },
         {
           "id": "nextjs",
-          "label": "Next.js frontend",
-          "status": "planned"
+          "label": "THREADLINE Next.js frontend",
+          "status": "active"
         },
         {
           "id": "vercel",
           "label": "Vercel deployment",
-          "status": "planned"
+          "status": "active"
         },
         {
           "id": "vector_ready",
